@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "3596106660",
+    "project_id": "connect-hub-social",
+    "storage_bucket": "connect-hub-social.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:3596106660:android:f7b4282415f6307ec99f31",
+        "android_client_info": {
+          "package_name": "com.example.connecthub_social"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGOb3WahU7Wq6X12znSuMMiPoG9__BmIY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
