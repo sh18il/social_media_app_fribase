@@ -1,7 +1,11 @@
+import 'package:connecthub_social/controller/image_controller.dart';
 import 'package:connecthub_social/firebase_options.dart';
+import 'package:connecthub_social/view/auth.dart';
 import 'package:connecthub_social/view/splash_screen.dart';
+import 'package:connecthub_social/widgets/bottom_nav.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,9 +18,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) =>ImagesProvider() ,),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: SplashScreen(),
+      ),
     );
   }
 }

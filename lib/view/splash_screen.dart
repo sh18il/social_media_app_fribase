@@ -1,4 +1,5 @@
 import 'package:connecthub_social/view/login_page.dart';
+import 'package:connecthub_social/widgets/bottom_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
@@ -15,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     Future.delayed(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => LoginPage(),
+        builder: (context) => BottomNav(),
       ));
     });
     super.initState();

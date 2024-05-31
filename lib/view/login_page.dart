@@ -1,6 +1,7 @@
 import 'package:connecthub_social/service/firebase_auth_implimentetion.dart';
 import 'package:connecthub_social/view/home_page.dart';
 import 'package:connecthub_social/view/singup_page.dart';
+import 'package:connecthub_social/widgets/bottom_nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -138,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
     String email = emailCtrl.text;
     String password = passwordCtrl.text;
 
-    User? user = await auth.singinWithEmailAndPassword(email, password);
+    User? user = await auth.singinWithEmailAndPassword(context,email, password,);
 
     setState(() {
       isSigning = false;
@@ -146,9 +147,9 @@ class _LoginPageState extends State<LoginPage> {
 
     if (user != null) {
       print("user secssus full login");
-      Navigator.of(context).pushAndRemoveUntil(
+       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (context) => HomePage(),
+          builder: (context) => BottomNav(),
         ),
         (route) => false,
       );

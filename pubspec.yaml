@@ -40,6 +40,12 @@ dependencies:
   firebase_auth: ^4.20.0
   gap: ^3.0.1
   fluttertoast: ^8.2.5
+  firebase_storage: ^11.7.7
+  provider: ^6.1.2
+  image_picker: ^1.1.1
+  image_picker_for_web: ^3.0.4
+  google_sign_in: ^6.2.1
+  light_bottom_navigation_bar: ^0.0.3
 
 dev_dependencies:
   flutter_test:

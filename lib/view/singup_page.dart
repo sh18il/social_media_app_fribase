@@ -1,5 +1,6 @@
 import 'package:connecthub_social/service/firebase_auth_implimentetion.dart';
 import 'package:connecthub_social/view/home_page.dart';
+import 'package:connecthub_social/widgets/bottom_nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -116,13 +117,13 @@ class _SingupPageState extends State<SingupPage> {
     String email = emailCtrl.text;
     String password = passwordCtrl.text;
 
-    User? user =
-        await _auth.singupWithEmailAndPassword(username, email, password);
+    User? user = await _auth.singupWithEmailAndPassword(
+        context, username, email, password);
 
     if (user != null) {
       print("user is succes");
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => HomePage(),
+        builder: (context) => BottomNav(),
       ));
     }
   }
