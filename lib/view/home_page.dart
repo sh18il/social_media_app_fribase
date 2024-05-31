@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
             return ListView.builder(
               itemCount: postRef.length,
               itemBuilder: (context, index) {
-                final id = postRef[index].id;
+               
                 final data = postRef[index].data();
                 return Container(
                   child: Column(
@@ -70,13 +70,7 @@ class HomePage extends StatelessWidget {
                                   children: [
                                     CircleAvatar(),
                                     Text(user!.displayName.toString()),
-                                    IconButton(
-                                        onPressed: () {
-                                          ImagePostService().deleteImage(
-                                              data.image.toString(), context);
-                                          ImagePostService().deletePost(id);
-                                        },
-                                        icon: Icon(Icons.delete))
+                                 
                                   ],
                                 ),
                               ),

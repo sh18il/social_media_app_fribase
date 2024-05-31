@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'package:connecthub_social/view/add_page.dart';
+import 'package:connecthub_social/view/all_user_page.dart';
 import 'package:connecthub_social/view/auth.dart';
 import 'package:connecthub_social/view/profile.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class _BottomNavState extends State<BottomNav> {
     AuthPage(),
     const Text('Search'),
     AddPage(),
-    const Text('Done'),
+   AllUserPage(),
     ProfilePage(),
   ];
   var index = 0;

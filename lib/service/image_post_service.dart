@@ -63,13 +63,7 @@ class ImagePostService {
   Future deletePost(String id) async {
     await postImgRef.doc(id).delete();
   }
-  //  Stream<QuerySnapshot<ImagePostModel>> getPostUser(ImagePostModel model,String currentUserId) {
-  //          if (model.uid==currentUserId) {
-  //             return postImgRef.snapshots();
-  //          }
 
-   
-  // }
   Stream<QuerySnapshot<ImagePostModel>> getPostUser(ImagePostModel model, String currentUserId) {
     if (model.uid == currentUserId) {
       return postImgRef
@@ -80,7 +74,7 @@ class ImagePostService {
           )
           .snapshots();
     } else {
-      // Return an empty stream if the user IDs do not match
+     
       return Stream<QuerySnapshot<ImagePostModel>>.empty();
     }
   }
