@@ -1,3 +1,4 @@
+import 'package:connecthub_social/controller/home_page_controller.dart';
 import 'package:connecthub_social/controller/image_controller.dart';
 import 'package:connecthub_social/firebase_options.dart';
 import 'package:connecthub_social/view/auth.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) =>ImagesProvider() ,),
+        ChangeNotifierProvider(create: (context) =>HomeController() ,),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

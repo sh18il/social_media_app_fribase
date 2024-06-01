@@ -46,6 +46,7 @@ dependencies:
   image_picker_for_web: ^3.0.4
   google_sign_in: ^6.2.1
   light_bottom_navigation_bar: ^0.0.3
+  dot_navigation_bar: ^1.0.2
 
 dev_dependencies:
   flutter_test:

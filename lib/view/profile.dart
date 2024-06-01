@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connecthub_social/model/image_post_model.dart';
 import 'package:connecthub_social/service/image_post_service.dart';
-import 'package:connecthub_social/service/user_service.dart';
 import 'package:connecthub_social/view/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,13 +11,13 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height * 1;
-    final width = MediaQuery.of(context).size.width * 1;
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       appBar: AppBar(
         leading: Text(user!.displayName.toString()),
-        title: Text(user!.email.toString()),
+        title: Text(user.email.toString()),
         actions: [
           IconButton(
               onPressed: () {
@@ -89,34 +88,62 @@ class ProfilePage extends StatelessWidget {
 
                   final posts =
                       snapshot.data!.docs.map((doc) => doc.data()).toList();
-                        List<QueryDocumentSnapshot<ImagePostModel>> postRef =
-                snapshot.data?.docs ?? [];
+                  List<QueryDocumentSnapshot<ImagePostModel>> postRef =
+                      snapshot.data?.docs ?? [];
 
-                  return ListView.builder(
+                  return GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 1,
+                    ),
                     itemCount: posts.length,
                     itemBuilder: (context, index) {
                       final post = posts[index];
-                       final id = postRef[index].id;
-                      return Column(
-                        children: [
-                          IconButton(
-                              onPressed: () {
-                                ImagePostService().deleteImage(
-                                    post.image.toString(), context);
-                                ImagePostService().deletePost(id);
-                              },
-                              icon: Icon(Icons.delete)),
-                          ListTile(
-                            title: Text(post.description.toString()),
-                            subtitle: Image.network(post.image.toString()),
-                          ),
-                        ],
+                      final id = postRef[index].id;
+                      return Card(
+                        elevation: 5,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Image.network(
+                                post.image.toString(),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    post.description.toString(),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  IconButton(
+                                      onPressed: () {
+                                        ImagePostService().deleteImage(
+                                            post.image.toString(), context);
+                                        ImagePostService().deletePost(id);
+                                      },
+                                      icon: Icon(Icons.delete)),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       );
                     },
                   );
                 },
               ),
-            )
+            ),
           ],
         ),
       ),

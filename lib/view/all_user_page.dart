@@ -26,13 +26,18 @@ class AllUserPage extends StatelessWidget {
                 final data = snapshot.data![index];
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: ListTile(
-                    hoverColor: const Color.fromARGB(255, 158, 157, 153),
-                    tileColor: Colors.blueAccent,
-                    leading: CircleAvatar(),
-                    trailing:
-                        ElevatedButton(onPressed: () {}, child: Text('Follow')),
-                    title: Text(data.username.toString()),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.lightBlueAccent),
+                    child: ListTile(
+                      hoverColor: const Color.fromARGB(255, 158, 157, 153),
+                      
+                      leading: CircleAvatar(),
+                      trailing: ElevatedButton(
+                          onPressed: () {}, child: Text('Follow')),
+                      title: Text(data.username.toString()),
+                    ),
                   ),
                 );
               },

@@ -18,7 +18,7 @@ class _BottomNavState extends State<BottomNav> {
     AuthPage(),
     const Text('Search'),
     AddPage(),
-   AllUserPage(),
+    AllUserPage(),
     ProfilePage(),
   ];
   var index = 0;

@@ -3,7 +3,7 @@ class ImagePostModel {
   String? description;
   String? uid;
 
-  ImagePostModel({ this.image, this.description, this.uid});
+  ImagePostModel({this.image, this.description, this.uid});
 
   ImagePostModel.fromJson(Map<String, dynamic> json) {
     image = json["image"];
