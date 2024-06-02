@@ -2,6 +2,7 @@
 import 'package:connecthub_social/view/add_page.dart';
 import 'package:connecthub_social/view/all_user_page.dart';
 import 'package:connecthub_social/view/auth.dart';
+import 'package:connecthub_social/view/home_page.dart';
 import 'package:connecthub_social/view/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:light_bottom_navigation_bar/light_bottom_navigation_bar.dart';
@@ -15,7 +16,7 @@ class BottomNav extends StatefulWidget {
 
 class _BottomNavState extends State<BottomNav> {
   var screensList = [
-    AuthPage(),
+    HomePage(),
     const Text('Search'),
     AddPage(),
     AllUserPage(),

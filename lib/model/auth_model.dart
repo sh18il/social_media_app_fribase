@@ -3,8 +3,8 @@ class UserModel {
   String? email;
   String? uid;
   String? password;
-  List? followers;
-  List? following;
+  int? followers ;
+  int? following;
 
   UserModel({
     this.username,

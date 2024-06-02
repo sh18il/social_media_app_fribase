@@ -1,3 +1,4 @@
+import 'package:connecthub_social/view/auth.dart';
 import 'package:connecthub_social/view/login_page.dart';
 import 'package:connecthub_social/widgets/bottom_nav.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     Future.delayed(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => BottomNav(),
+        builder: (context) => AuthPage(),
       ));
     });
     super.initState();

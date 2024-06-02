@@ -1,5 +1,7 @@
 import 'package:connecthub_social/model/auth_model.dart';
+import 'package:connecthub_social/service/follow_service.dart';
 import 'package:connecthub_social/service/user_service.dart';
+import 'package:connecthub_social/view/user_profile_page.dart';
 import 'package:flutter/material.dart';
 
 class AllUserPage extends StatelessWidget {
@@ -7,6 +9,7 @@ class AllUserPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FollowService followService = FollowService();
     return Scaffold(
       body: StreamBuilder(
         stream: UserService().getUser(),
@@ -26,17 +29,46 @@ class AllUserPage extends StatelessWidget {
                 final data = snapshot.data![index];
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.lightBlueAccent),
-                    child: ListTile(
-                      hoverColor: const Color.fromARGB(255, 158, 157, 153),
-                      
-                      leading: CircleAvatar(),
-                      trailing: ElevatedButton(
-                          onPressed: () {}, child: Text('Follow')),
-                      title: Text(data.username.toString()),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            UserProfilePage(userId: data.uid!),
+                      ));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.lightBlueAccent),
+                      child: ListTile(
+                        hoverColor: const Color.fromARGB(255, 158, 157, 153),
+                        leading: CircleAvatar(),
+                        trailing: FutureBuilder<bool>(
+                          future:
+                              followService.isFollowing(data.uid.toString()),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return CircularProgressIndicator();
+                            }
+                            bool isFollowing = snapshot.data!;
+                            return ElevatedButton(
+                              onPressed: () async {
+                                if (isFollowing) {
+                                  await followService
+                                      .unfollowUser(data.uid.toString());
+                                } else {
+                                  await followService
+                                      .followUser(data.uid.toString());
+                                }
+                                // Refresh the state to update the button text
+                                (context as Element).reassemble();
+                              },
+                              child: Text(isFollowing ? 'Unfollow' : 'Follow'),
+                            );
+                          },
+                        ),
+                        title: Text(data.username.toString()),
+                      ),
                     ),
                   ),
                 );
