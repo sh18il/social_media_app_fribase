@@ -1,9 +1,12 @@
 import 'package:connecthub_social/controller/home_page_controller.dart';
 import 'package:connecthub_social/controller/image_controller.dart';
+import 'package:connecthub_social/controller/sigin_page.dart';
+
 import 'package:connecthub_social/firebase_options.dart';
 import 'package:connecthub_social/view/auth.dart';
 import 'package:connecthub_social/view/splash_screen.dart';
 import 'package:connecthub_social/widgets/bottom_nav.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,8 +24,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) =>ImagesProvider() ,),
-        ChangeNotifierProvider(create: (context) =>HomeController() ,),
+        ChangeNotifierProvider(
+          create: (context) => ImagesProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => HomeController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => SginPageController(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

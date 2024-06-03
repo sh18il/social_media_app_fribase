@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                   TextButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => SingupPage(),
+                          builder: (context) => SignupPage(),
                         ));
                       },
                       child: Text("Sing-Up")),
@@ -139,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
     String email = emailCtrl.text;
     String password = passwordCtrl.text;
 
-    User? user = await auth.singinWithEmailAndPassword(context,email, password,);
+    User? user = await auth.signinWithEmailAndPassword(context,email, password,);
 
     setState(() {
       isSigning = false;

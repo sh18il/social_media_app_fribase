@@ -58,7 +58,11 @@ class ProfilePage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            CircleAvatar(),
+                            CircleAvatar(
+                              maxRadius: 40,
+                              backgroundImage:
+                                  NetworkImage(user.image.toString()),
+                            ),
                             Column(
                               children: [
                                 Text("FOLLOWERS"),

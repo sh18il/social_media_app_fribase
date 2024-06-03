@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connecthub_social/controller/home_page_controller.dart';
 import 'package:connecthub_social/model/image_post_model.dart';
 import 'package:connecthub_social/service/image_post_service.dart';
+import 'package:connecthub_social/service/like_service.dart';
 import 'package:connecthub_social/view/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -93,6 +94,7 @@ class HomePage extends StatelessWidget {
                                     builder: (context, homeController, _) {
                                       final isLiked =
                                           homeController.isLiked(postId);
+
                                       final likeCount =
                                           homeController.likeCount(postId);
                                       return Row(

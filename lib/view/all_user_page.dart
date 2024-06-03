@@ -42,7 +42,9 @@ class AllUserPage extends StatelessWidget {
                           color: Colors.lightBlueAccent),
                       child: ListTile(
                         hoverColor: const Color.fromARGB(255, 158, 157, 153),
-                        leading: CircleAvatar(),
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(data.image.toString()),
+                        ),
                         trailing: FutureBuilder<bool>(
                           future:
                               followService.isFollowing(data.uid.toString()),

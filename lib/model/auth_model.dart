@@ -3,7 +3,8 @@ class UserModel {
   String? email;
   String? uid;
   String? password;
-  int? followers ;
+  String? image;
+  int? followers;
   int? following;
 
   UserModel({
@@ -11,6 +12,7 @@ class UserModel {
     required this.email,
     this.uid,
     required this.password,
+    this.image,
     this.followers,
     this.following,
   });
@@ -22,6 +24,7 @@ class UserModel {
     email = json["email"];
     uid = json["uid"];
     password = json["password"];
+    image = json["image"];
     followers = json["followers"];
     following = json["following"];
   }
@@ -32,6 +35,7 @@ class UserModel {
       "email": email,
       "uid": uid,
       "password": password,
+      "image": image,
       "followers": followers,
       "following": following,
     };
