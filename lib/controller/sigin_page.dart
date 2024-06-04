@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:connecthub_social/service/firebase_auth_implimentetion.dart';
-import 'package:connecthub_social/service/image_post_service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 

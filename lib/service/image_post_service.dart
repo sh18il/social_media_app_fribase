@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connecthub_social/model/image_post_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -82,5 +83,20 @@ class ImagePostService {
   void _showErrorMessage(BuildContext context, String message) {
     final snackBar = SnackBar(content: Text(message));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+    Future<void> toggleLike(String postId, bool isLiked) async {
+    DocumentReference postRef =
+        FirebaseFirestore.instance.collection('User posts').doc(postId);
+    if (isLiked) {
+      await postRef.update({
+        'Likes':
+            FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.email])
+      });
+    } else {
+      await postRef.update({
+        'Likes':
+            FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.email]),
+      });
+    }
   }
 }

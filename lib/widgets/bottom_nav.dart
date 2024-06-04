@@ -28,6 +28,8 @@ class _BottomNavState extends State<BottomNav> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: LightBottomNavigationBar(
+        backgroundColor: Color.fromARGB(255, 19, 12, 12),
+        height: 55,
         currentIndex: index,
         items: makeNavItems(),
         onSelected: (index) {
@@ -65,8 +67,8 @@ class _BottomNavState extends State<BottomNav> {
         unSelectedIconColor: Colors.blue,
       ),
       const LightBottomNavigationBarItem(
-        unSelectedIcon: Icons.star_border_outlined,
-        selectedIcon: Icons.star_border_outlined,
+        unSelectedIcon: Icons.post_add_sharp,
+        selectedIcon: Icons.post_add_sharp,
         size: 30,
         backgroundShadowColor: Colors.yellowAccent,
         borderBottomColor: Colors.yellowAccent,
@@ -76,8 +78,8 @@ class _BottomNavState extends State<BottomNav> {
         unSelectedIconColor: Colors.yellowAccent,
       ),
       const LightBottomNavigationBarItem(
-        unSelectedIcon: Icons.done_outline_rounded,
-        selectedIcon: Icons.done_outline_rounded,
+        unSelectedIcon: Icons.supervised_user_circle_outlined,
+        selectedIcon: Icons.supervised_user_circle_outlined,
         size: 30,
         backgroundShadowColor: Colors.green,
         borderBottomColor: Colors.green,

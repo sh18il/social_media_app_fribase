@@ -80,6 +80,7 @@
 // }
 import 'dart:io';
 import 'package:connecthub_social/controller/image_controller.dart';
+import 'package:connecthub_social/model/auth_model.dart';
 import 'package:connecthub_social/model/image_post_model.dart';
 import 'package:connecthub_social/service/image_post_service.dart';
 import 'package:connecthub_social/widgets/bottom_nav.dart';
@@ -88,8 +89,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AddPage extends StatelessWidget {
-  String? email;
-  AddPage({super.key, this.email});
+  String? username;
+  AddPage({super.key, this.username});
 
   TextEditingController descriptionCtrl = TextEditingController();
 
@@ -178,7 +179,7 @@ class AddPage extends StatelessWidget {
                   SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
-                      add(context);
+                      add(context, false);
                     },
                     child: Text("Submit"),
                     style: ElevatedButton.styleFrom(
@@ -200,7 +201,7 @@ class AddPage extends StatelessWidget {
     );
   }
 
-  add(BuildContext context) async {
+  add(BuildContext context, isLiked) async {
     final user = FirebaseAuth.instance.currentUser!.uid;
     ImagePostService services = ImagePostService();
     final imageProvider = Provider.of<ImagesProvider>(context, listen: false);
@@ -209,7 +210,12 @@ class AddPage extends StatelessWidget {
       await services.addImage(File(imageProvider.pickedImage!.path), context);
 
       ImagePostModel imModel = ImagePostModel(
-          image: services.url, description: descriptionCtrl.text, uid: user);
+        image: services.url,
+        description: descriptionCtrl.text,
+        uid: user,
+        isLiked: isLiked,
+      );
+      imageProvider.clearPickedImage();
 
       await services.addPost(imModel);
       Navigator.pushAndRemoveUntil(

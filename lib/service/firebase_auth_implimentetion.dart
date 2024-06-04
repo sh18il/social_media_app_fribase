@@ -52,14 +52,13 @@
 // //   // }
 // // }
 
-
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:connecthub_social/model/auth_model.dart';
-import 'package:connecthub_social/widgets/massege.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthService {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -111,8 +110,8 @@ class FirebaseAuthService {
     }
   }
 
-  Future<User?> signupWithEmailAndPassword(
-      BuildContext context, String username, String email, String password, String imageUrl) async {
+  Future<User?> signupWithEmailAndPassword(BuildContext context,
+      String username, String email, String password, String imageUrl) async {
     try {
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -128,7 +127,10 @@ class FirebaseAuthService {
           image: imageUrl,
         );
 
-        await _firestore.collection('users').doc(user.uid).set(newUser.toJson());
+        await _firestore
+            .collection('users')
+            .doc(user.uid)
+            .set(newUser.toJson());
 
         await sendEmailVerification(context);
 
@@ -161,6 +163,29 @@ class FirebaseAuthService {
       return credential.user;
     } on FirebaseAuthException catch (e) {
       ShowSnackBar(context, e.message.toString());
+      return null;
+    }
+  }
+
+  Future<UserCredential?> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser == null) {
+        return null;
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final OAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    } catch (e) {
+      print('Error signing in with Google: $e');
       return null;
     }
   }

@@ -9,7 +9,10 @@ class HomeController extends ChangeNotifier {
 
   void toggleLike(String postId) {
     _likeStates[postId] = !(_likeStates[postId] ?? false);
-    _likeCounts[postId] = (_likeCounts[postId] ?? 0) + (_likeStates[postId]! ? 1 : -1);
+    _likeCounts[postId] =
+        (_likeCounts[postId] ?? 0) + (_likeStates[postId]! ? 1 : -1);
     notifyListeners();
   }
+
+  
 }

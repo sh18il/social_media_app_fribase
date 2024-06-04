@@ -2,8 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connecthub_social/controller/home_page_controller.dart';
 import 'package:connecthub_social/model/image_post_model.dart';
 import 'package:connecthub_social/service/image_post_service.dart';
-import 'package:connecthub_social/service/like_service.dart';
-import 'package:connecthub_social/view/login_page.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -22,6 +21,7 @@ class HomePage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Color.fromARGB(255, 19, 12, 12),
         appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 19, 12, 12),
           actions: [
             IconButton(onPressed: () {}, icon: Icon(Icons.chat_outlined))
           ],
@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
           title: Text(
             "CONNECT_HUB",
             style: TextStyle(
-                color: Colors.black,
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontStyle: FontStyle.italic),
           ),
@@ -51,6 +51,17 @@ class HomePage extends StatelessWidget {
             } else {
               List<QueryDocumentSnapshot<ImagePostModel>> postRef =
                   snapshot.data?.docs ?? [];
+              if (postRef.isEmpty) {
+                return const Center(
+                  child: Text(
+                    "No data available",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                );
+              }
               return ListView.builder(
                 itemCount: postRef.length,
                 itemBuilder: (context, index) {
@@ -70,7 +81,7 @@ class HomePage extends StatelessWidget {
                                   children: [
                                     CircleAvatar(),
                                     Gap(20),
-                                    Text(user!.email.toString()),
+                                    Text(user?.email ?? 'No name'),
                                   ],
                                 ),
                               ),
@@ -82,7 +93,17 @@ class HomePage extends StatelessWidget {
                                   fit: BoxFit.cover,
                                 ),
                               ),
-                              Text(data.description.toString()),
+                              Row(
+                                children: [
+                                  Gap(5),
+                                  Text(
+                                    data.description.toString(),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                           Row(

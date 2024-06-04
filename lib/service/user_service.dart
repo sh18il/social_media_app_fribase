@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connecthub_social/model/auth_model.dart';
-import 'package:connecthub_social/model/image_post_model.dart';
 
 class UserService {
   CollectionReference firestore =
