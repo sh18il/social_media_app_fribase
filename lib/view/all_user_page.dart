@@ -12,7 +12,7 @@ class AllUserPage extends StatelessWidget {
   Widget build(BuildContext context) {
     FollowService followService = FollowService();
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 19, 12, 12),
+      backgroundColor: Color.fromARGB(221, 47, 46, 46),
       body: StreamBuilder(
         stream: UserService().getUser(),
         builder: (context, snapshot) {
@@ -42,7 +42,7 @@ class AllUserPage extends StatelessWidget {
                       height: 70,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          color: Color.fromARGB(255, 113, 84, 65)),
+                          color: Color.fromARGB(255, 34, 30, 27)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -81,8 +81,14 @@ class AllUserPage extends StatelessWidget {
                                   // Refresh the state to update the button text
                                   (context as Element).reassemble();
                                 },
-                                child:
-                                    Text(isFollowing ? 'Unfollow' : 'Follow'),
+                                child: Text(
+                                  isFollowing ? 'Unfollow ' : 'Follow',
+                                  style: TextStyle(
+                                      color: isFollowing
+                                          ? Colors.red
+                                          : Colors.blue,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               );
                             },
                           ),

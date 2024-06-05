@@ -3,6 +3,7 @@ import 'package:connecthub_social/model/auth_model.dart';
 import 'package:connecthub_social/model/image_post_model.dart';
 import 'package:connecthub_social/service/follow_service.dart';
 import 'package:connecthub_social/service/image_post_service.dart';
+import 'package:connecthub_social/view/edit_profile_page.dart';
 import 'package:connecthub_social/view/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +18,9 @@ class ProfilePage extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final userid = FirebaseAuth.instance.currentUser!.uid;
     return Scaffold(
+      backgroundColor: Color.fromARGB(221, 47, 46, 46),
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 19, 12, 12),
+        backgroundColor: Color.fromARGB(221, 47, 46, 46),
         leading: Image(
             fit: BoxFit.fill,
             image: AssetImage(
@@ -44,7 +46,7 @@ class ProfilePage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(1),
         child: FutureBuilder<UserModel?>(
-            future: FollowService().getUserData(userid ?? "no"),
+            future: FollowService().getUserData(context, userid ?? "no"),
             builder: (context, snapshot) {
               UserModel? user = snapshot.data;
               return Container(
@@ -55,9 +57,11 @@ class ProfilePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          user?.username.toString().toUpperCase() ?? "no",
+                          user?.username.toString().toUpperCase() ?? "UserName",
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
                         ),
                       ],
                     ),
@@ -68,20 +72,37 @@ class ProfilePage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               CircleAvatar(
-                                maxRadius: 40,
-                                backgroundImage:
-                                    NetworkImage(user?.image.toString() ?? ""),
-                              ),
+                                  maxRadius: 40,
+                                  backgroundImage:
+                                      getImageProvider(user?.image)),
                               Column(
                                 children: [
-                                  Text(user?.followers.toString() ?? ""),
-                                  Text("FOLLOWERS"),
+                                  Text(
+                                    user?.followers.toString() ?? "",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  Text(
+                                    "FOLLOWERS",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ],
                               ),
                               Column(
                                 children: [
-                                  Text(user?.following.toString() ?? ""),
-                                  Text("FOLLOWING"),
+                                  Text(
+                                    user?.following.toString() ?? "",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  Text(
+                                    "FOLLOWING",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ],
                               )
                             ],
@@ -92,10 +113,12 @@ class ProfilePage extends StatelessWidget {
                             children: [
                               InkWell(
                                 onTap: () {
-                                  FirebaseAuth.instance.signOut();
-                                  Navigator.of(context)
-                                      .pushReplacement(MaterialPageRoute(
-                                    builder: (context) => LoginPage(),
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => EditProfilePage(
+                                        userModel: UserModel(
+                                            image: user?.image ?? "",
+                                            username: user?.username ?? ""),
+                                        id: user?.uid ?? ""),
                                   ));
                                 },
                                 child: Container(
@@ -107,7 +130,7 @@ class ProfilePage extends StatelessWidget {
                                   height: height * 0.04,
                                   child: Center(
                                       child: Text(
-                                    "Log Out",
+                                    "Edit Profile",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),
@@ -123,8 +146,7 @@ class ProfilePage extends StatelessWidget {
                     Expanded(
                       child: StreamBuilder<QuerySnapshot<ImagePostModel>>(
                         stream: ImagePostService().getPostUser(
-                            ImagePostModel(image: "", uid: user?.uid),
-                            user?.uid ?? ""),
+                            ImagePostModel(uid: user?.uid), user?.uid ?? ""),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
@@ -138,7 +160,12 @@ class ProfilePage extends StatelessWidget {
 
                           if (!snapshot.hasData ||
                               snapshot.data!.docs.isEmpty) {
-                            return Center(child: Text('No posts found.'));
+                            return Center(
+                                child: Text(
+                              'No posts found.',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 243, 241, 241)),
+                            ));
                           }
 
                           final posts = snapshot.data!.docs
@@ -194,5 +221,16 @@ class ProfilePage extends StatelessWidget {
             }),
       ),
     );
+  }
+
+  ImageProvider getImageProvider(String? imageUrl) {
+    if (imageUrl != null &&
+        imageUrl.isNotEmpty &&
+        Uri.tryParse(imageUrl)?.hasAbsolutePath == true) {
+      return NetworkImage(imageUrl);
+    } else {
+      return AssetImage(
+          'assets/images/hub-logo-design-template-free-vector-removebg-preview.png');
+    }
   }
 }

@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connecthub_social/model/auth_model.dart';
+import 'package:connecthub_social/model/image_post_model.dart';
 import 'package:connecthub_social/service/follow_service.dart';
+import 'package:connecthub_social/service/image_post_service.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +20,7 @@ class UserProfilePage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: const Color.fromARGB(96, 63, 54, 54),
         body: FutureBuilder<UserModel?>(
-          future: followService.getUserData(userId),
+          future: followService.getUserData(context, userId),
           builder: (context, userSnapshot) {
             if (userSnapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
@@ -108,6 +111,58 @@ class UserProfilePage extends StatelessWidget {
                       ),
                     );
                   },
+                ),
+                Expanded(
+                  child: StreamBuilder<QuerySnapshot<ImagePostModel>>(
+                    stream: ImagePostService().getPostUser(
+                        ImagePostModel(uid: user.uid), user?.uid ?? ""),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+
+                      if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      }
+
+                      if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                        return Center(child: Text('No posts found.'));
+                      }
+
+                      final posts =
+                          snapshot.data!.docs.map((doc) => doc.data()).toList();
+                      List<QueryDocumentSnapshot<ImagePostModel>> postRef =
+                          snapshot.data?.docs ?? [];
+
+                      return GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 5,
+                          childAspectRatio: 0.95,
+                        ),
+                        itemCount: posts.length,
+                        itemBuilder: (context, index) {
+                          final post = posts[index];
+                          final id = postRef[index].id;
+                          return Stack(
+                            children: [
+                              Container(
+                                width: width * 0.5,
+                                child: Card(
+                                  elevation: 7,
+                                  child: Image.network(
+                                    post.image.toString(),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
               ],
             );

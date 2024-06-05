@@ -19,9 +19,9 @@ class HomePage extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 19, 12, 12),
+        backgroundColor: Color.fromARGB(221, 47, 46, 46),
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 19, 12, 12),
+          backgroundColor: const Color.fromARGB(96, 63, 54, 54),
           actions: [
             IconButton(onPressed: () {}, icon: Icon(Icons.chat_outlined))
           ],

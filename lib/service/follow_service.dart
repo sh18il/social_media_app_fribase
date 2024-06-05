@@ -60,10 +60,14 @@ class FollowService {
     return doc.exists;
   }
 
-  Future<UserModel?> getUserData(String userId) async {
-    DocumentSnapshot doc =
-        await _firestore.collection('users').doc(userId).get();
-    return UserModel.fromJson(doc.data() as Map<String, dynamic>);
+  Future<UserModel?> getUserData(BuildContext context, String userId) async {
+    try {
+      DocumentSnapshot doc =
+          await _firestore.collection('users').doc(userId).get();
+      return UserModel.fromJson(doc.data() as Map<String, dynamic>);
+    } catch (e) {
+      ShowSnackBar(context, "gett data is error $e");
+    }
   }
 
   void ShowSnackBar(BuildContext context, String message) {

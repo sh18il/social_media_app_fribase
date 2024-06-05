@@ -102,7 +102,7 @@ class AddPage extends StatelessWidget {
     return SafeArea(
       child: PopScope(
         child: Scaffold(
-          backgroundColor: Color.fromARGB(255, 19, 12, 12),
+          backgroundColor: Color.fromARGB(221, 47, 46, 46),
           appBar: AppBar(
             title: Text("Add New Post"),
             centerTitle: true,

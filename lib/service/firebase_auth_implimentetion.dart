@@ -1,57 +1,3 @@
-// import 'dart:io';
-
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:connecthub_social/controller/sigin_page.dart';
-// import 'package:connecthub_social/model/auth_model.dart';
-// import 'package:connecthub_social/widgets/massege.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:firebase_storage/firebase_storage.dart';
-// import 'package:flutter/material.dart';
-
-// // class FirebaseAuthService {
-// //   FirebaseAuth _auth = FirebaseAuth.instance;
-
-// //   Future<User?> singupWithEmailAndPassword(BuildContext context,
-// //       String username, String email, String password) async {
-// //     try {
-// //       UserCredential credential = await _auth.createUserWithEmailAndPassword(
-// //           email: email, password: password);
-// //       await sendEmailVerification(context);
-// //       return credential.user;
-// //     } on FirebaseAuthException catch (e) {
-// //       ShowSnackBar(context, e.message.toString());
-// //       return null;
-// //     }
-// //   }
-
-// //   Future<void> sendEmailVerification(BuildContext context) async {
-// //     try {
-// //       _auth.currentUser!.sendEmailVerification();
-// //       ShowSnackBar(context, "email Verification sent");
-// //     } on FirebaseAuthException catch (e) {
-// //       ShowSnackBar(context, e.message!);
-// //     }
-// //   }
-
-// //   Future<User?> singinWithEmailAndPassword(
-// //       BuildContext context, String email, String password) async {
-// //     try {
-// //       UserCredential credential = await _auth.signInWithEmailAndPassword(
-// //           email: email, password: password);
-// //       if (_auth.currentUser!.emailVerified) {
-// //         await sendEmailVerification(context);
-// //       }
-// //       return credential.user;
-// //     } on FirebaseAuthException catch (e) {
-// //       ShowSnackBar(context, e.message.toString());
-// //       return null;
-// //     }
-// //   }
-// //   // signInWithGooglr()async{
-// //   //   final GoogleSignin
-// //   // }
-// // }
-
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -76,6 +22,15 @@ class FirebaseAuthService {
                 UserModel.fromJson(snapshot.data() ?? {}),
             toFirestore: (value, options) => value.toJson(),
           );
+
+  Future<void> updateUserProfile(
+      BuildContext context, String userName, String id) async {
+    try {
+      await postImgRef.doc(id).update({"username": userName});
+    } catch (e) {
+      ShowSnackBar(context, "faildUpdate");
+    }
+  }
 
   Future<void> addImage(File image, BuildContext context) async {
     Reference imageFolder = firebaseStorage.child("images");

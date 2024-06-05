@@ -1,3 +1,4 @@
+import 'package:connecthub_social/controller/firebase_auth_contriller.dart';
 import 'package:connecthub_social/service/firebase_auth_implimentetion.dart';
 import 'package:connecthub_social/view/home_page.dart';
 import 'package:connecthub_social/view/singup_page.dart';
@@ -5,6 +6,7 @@ import 'package:connecthub_social/widgets/bottom_nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});
@@ -132,11 +134,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login(BuildContext context) async {
-    FirebaseAuthService auth = FirebaseAuthService();
+    final provider = Provider.of<FirebaseAuthContriller>(context, listen: false);
+    // FirebaseAuthService auth = FirebaseAuthService();
     String email = emailCtrl.text;
     String password = passwordCtrl.text;
 
-    User? user = await auth.signinWithEmailAndPassword(
+    User? user = await provider.signinEmailAndPassword(
       context,
       email,
       password,

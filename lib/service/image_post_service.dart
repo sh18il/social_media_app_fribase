@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connecthub_social/model/image_post_model.dart';
+import 'package:connecthub_social/service/firebase_auth_implimentetion.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class ImagePostService {
     }
   }
 
-  Future updateImage(
+  Future <String?> updateImage(
       String imageUrl, File updateImage, BuildContext context) async {
     try {
       Reference editImageRef = FirebaseStorage.instance.refFromURL(imageUrl);
@@ -65,18 +66,24 @@ class ImagePostService {
     await postImgRef.doc(id).delete();
   }
 
-  Stream<QuerySnapshot<ImagePostModel>> getPostUser(ImagePostModel model, String currentUserId) {
-    if (model.uid == currentUserId) {
-      return postImgRef
-          .where('uid', isEqualTo: currentUserId)
-          .withConverter<ImagePostModel>(
-            fromFirestore: (snapshot, _) => ImagePostModel.fromJson(snapshot.data()!),
-            toFirestore: (model, _) => model.tojson(),
-          )
-          .snapshots();
-    } else {
-     
-      return Stream<QuerySnapshot<ImagePostModel>>.empty();
+  Stream<QuerySnapshot<ImagePostModel>> getPostUser(
+      ImagePostModel model, String currentUserId) {
+    try {
+      if (model.uid == currentUserId) {
+        return postImgRef
+            .where('uid', isEqualTo: currentUserId)
+            .withConverter<ImagePostModel>(
+              fromFirestore: (snapshot, _) =>
+                  ImagePostModel.fromJson(snapshot.data()!),
+              toFirestore: (model, _) => model.tojson(),
+            )
+            .snapshots();
+      } else {
+        return Stream<QuerySnapshot<ImagePostModel>>.empty();
+      }
+    } on FirebaseException catch (e) {
+      return throw Exception(e);
+      //  ShowSnackBar(context, "error$e")
     }
   }
 
@@ -84,7 +91,8 @@ class ImagePostService {
     final snackBar = SnackBar(content: Text(message));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-    Future<void> toggleLike(String postId, bool isLiked) async {
+
+  Future<void> toggleLike(String postId, bool isLiked) async {
     DocumentReference postRef =
         FirebaseFirestore.instance.collection('User posts').doc(postId);
     if (isLiked) {
