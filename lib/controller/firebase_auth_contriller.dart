@@ -26,13 +26,14 @@ class FirebaseAuthContriller extends ChangeNotifier {
     }
   }
 
-  Future signinEmailAndPassword(
-      BuildContext context, String email, String password) async {
-    try {
-      await service.signinWithEmailAndPassword(context, email, password);
-      notifyListeners();
-    } on FirebaseAuthException catch (e) {
-      ShowSnackBar(context, e.message.toString());
-    }
-  }
+//   Future signinEmailAndPassword(
+//       BuildContext context, String email, String password) async {
+//     try {
+//       await service.signinWithEmailAndPassword(context, email, password);
+//       notifyListeners();
+//     } on FirebaseAuthException catch (e) {
+//       ShowSnackBar(context, e.message.toString());
+//     }
+//     notifyListeners();
+//   }
 }

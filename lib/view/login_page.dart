@@ -8,19 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
   TextEditingController emailCtrl = TextEditingController();
 
   TextEditingController passwordCtrl = TextEditingController();
-
-  bool isSigning = false;
 
   @override
   Widget build(BuildContext context) {
@@ -134,20 +127,17 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login(BuildContext context) async {
-    final provider = Provider.of<FirebaseAuthContriller>(context, listen: false);
-    // FirebaseAuthService auth = FirebaseAuthService();
+    // final provider =
+    //     Provider.of<FirebaseAuthContriller>(context, listen: false);
+    FirebaseAuthService auth = FirebaseAuthService();
     String email = emailCtrl.text;
     String password = passwordCtrl.text;
 
-    User? user = await provider.signinEmailAndPassword(
+    User? user = await auth.signinWithEmailAndPassword(
       context,
       email,
       password,
     );
-
-    setState(() {
-      isSigning = false;
-    });
 
     if (user != null) {
       print("user secssus full login");
