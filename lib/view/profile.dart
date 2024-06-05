@@ -200,13 +200,28 @@ class ProfilePage extends StatelessWidget {
                                   ),
                                   Align(
                                     alignment: Alignment.topRight,
-                                    child: IconButton(
-                                        onPressed: () {
+                                    child: PopupMenuButton(
+                                      color:
+                                          const Color.fromARGB(255, 29, 28, 28),
+                                      onSelected: (value) {
+                                        if (value == "delete") {
                                           ImagePostService().deleteImage(
                                               post.image.toString(), context);
                                           ImagePostService().deletePost(id);
-                                        },
-                                        icon: Icon(Icons.delete)),
+                                        }
+                                      },
+                                      itemBuilder: (context) {
+                                        return [
+                                          const PopupMenuItem(
+                                              value: 'delete',
+                                              child: Text(
+                                                'Delete',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ))
+                                        ];
+                                      },
+                                    ),
                                   ),
                                 ],
                               );

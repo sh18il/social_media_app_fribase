@@ -11,12 +11,10 @@ import 'package:provider/provider.dart';
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
-  TextEditingController emailCtrl = TextEditingController();
-
-  TextEditingController passwordCtrl = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
+    final provider =
+        Provider.of<FirebaseAuthContriller>(context, listen: false);
     final height = MediaQuery.of(context).size.height * 1;
     final width = MediaQuery.of(context).size.width * 1;
     return SafeArea(
@@ -35,7 +33,7 @@ class LoginPage extends StatelessWidget {
                           "assets/images/hub-logo-design-template-free-vector-removebg-preview.png")),
                 ),
                 TextFormField(
-                  controller: emailCtrl,
+                  controller: provider.emailCtrl,
                   decoration: InputDecoration(
                       label: Text("Email"),
                       border: OutlineInputBorder(
@@ -43,25 +41,29 @@ class LoginPage extends StatelessWidget {
                 ),
                 Gap(30),
                 TextFormField(
-                  controller: passwordCtrl,
+                  controller: provider.passwordCtrl,
                   decoration: InputDecoration(
                       label: Text("password"),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20))),
                 ),
                 Gap(30),
-                InkWell(
-                  onTap: () {
-                    _login(context);
-                    print('Loged in');
-                  },
-                  child: Container(
-                    height: 30,
-                    width: 100,
-                    color: Colors.amber,
-                    child: Center(child: Text('Login')),
-                  ),
-                ),
+                Consumer<FirebaseAuthContriller>(builder: (context, pro, _) {
+                  return InkWell(
+                    onTap: () async {
+                      pro.login(context);
+                     
+
+                      print('Loged in');
+                    },
+                    child: Container(
+                      height: 30,
+                      width: 100,
+                      color: Colors.amber,
+                      child: Center(child: Text('Login')),
+                    ),
+                  );
+                }),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -124,31 +126,5 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _login(BuildContext context) async {
-    // final provider =
-    //     Provider.of<FirebaseAuthContriller>(context, listen: false);
-    FirebaseAuthService auth = FirebaseAuthService();
-    String email = emailCtrl.text;
-    String password = passwordCtrl.text;
-
-    User? user = await auth.signinWithEmailAndPassword(
-      context,
-      email,
-      password,
-    );
-
-    if (user != null) {
-      print("user secssus full login");
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => BottomNav(),
-        ),
-        (route) => false,
-      );
-    } else {
-      print("some error happend");
-    }
   }
 }

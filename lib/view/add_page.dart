@@ -82,6 +82,7 @@ import 'dart:io';
 import 'package:connecthub_social/controller/image_controller.dart';
 import 'package:connecthub_social/model/auth_model.dart';
 import 'package:connecthub_social/model/image_post_model.dart';
+import 'package:connecthub_social/service/follow_service.dart';
 import 'package:connecthub_social/service/image_post_service.dart';
 import 'package:connecthub_social/widgets/bottom_nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -205,11 +206,14 @@ class AddPage extends StatelessWidget {
     final user = FirebaseAuth.instance.currentUser!.uid;
     ImagePostService services = ImagePostService();
     final imageProvider = Provider.of<ImagesProvider>(context, listen: false);
+    final username = await FollowService().getUserData(context, user);
 
     if (imageProvider.pickedImage != null) {
       await services.addImage(File(imageProvider.pickedImage!.path), context);
 
       ImagePostModel imModel = ImagePostModel(
+        username: username!.username.toString(),
+        userImage: username.image,
         image: services.url,
         description: descriptionCtrl.text,
         uid: user,

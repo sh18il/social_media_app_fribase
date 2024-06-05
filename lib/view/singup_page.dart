@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:connecthub_social/controller/firebase_auth_contriller.dart';
 import 'package:connecthub_social/controller/sigin_page.dart';
 import 'package:connecthub_social/service/firebase_auth_implimentetion.dart';
 
@@ -9,22 +10,13 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
-class SignupPage extends StatefulWidget {
+class SignupPage extends StatelessWidget {
   const SignupPage({super.key});
 
-  @override
-  State<SignupPage> createState() => _SignupPageState();
-}
-
-class _SignupPageState extends State<SignupPage> {
-  FirebaseAuthService _auth = FirebaseAuthService();
-  TextEditingController userNameCtrl = TextEditingController();
-  TextEditingController emailCtrl = TextEditingController();
-  TextEditingController passwordCtrl = TextEditingController();
-  File? _selectedImage;
-
+  // TextEditingController emailCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<FirebaseAuthContriller>(context, listen: false);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return SafeArea(
@@ -37,7 +29,7 @@ class _SignupPageState extends State<SignupPage> {
                 return FutureBuilder<File?>(
                   future: Future.value(pro.pickedImage),
                   builder: (context, snapshot) {
-                    _selectedImage = snapshot.data;
+                  provider.  selectedImage = snapshot.data;
                     return Container(
                       height: height * 0.3,
                       decoration: BoxDecoration(
@@ -87,7 +79,7 @@ class _SignupPageState extends State<SignupPage> {
                 child: Center(child: Text("Sign Up")),
               ),
               TextFormField(
-                controller: userNameCtrl,
+                controller:provider. userNameCtrl,
                 decoration: InputDecoration(
                     label: Text("User Name"),
                     border: OutlineInputBorder(
@@ -95,7 +87,7 @@ class _SignupPageState extends State<SignupPage> {
               ),
               Gap(30),
               TextFormField(
-                controller: emailCtrl,
+                controller:provider. emailCtrl,
                 decoration: InputDecoration(
                     label: Text("Email or Phone"),
                     border: OutlineInputBorder(
@@ -103,7 +95,7 @@ class _SignupPageState extends State<SignupPage> {
               ),
               Gap(30),
               TextFormField(
-                controller: passwordCtrl,
+                controller: provider. passwordCtrl,
                 decoration: InputDecoration(
                     label: Text("Password"),
                     border: OutlineInputBorder(
@@ -115,7 +107,7 @@ class _SignupPageState extends State<SignupPage> {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Color.fromARGB(255, 114, 152, 218)),
                     onPressed: () {
-                      _signUp();
+                     provider. signUp(context);
                     },
                     child: Text(
                       "Sign Up",
@@ -164,28 +156,5 @@ class _SignupPageState extends State<SignupPage> {
         ),
       ),
     );
-  }
-
-  void _signUp() async {
-    String username = userNameCtrl.text;
-    String email = emailCtrl.text;
-    String password = passwordCtrl.text;
-
-    if (_selectedImage != null) {
-      await _auth.addImage(_selectedImage!, context);
-      String imageUrl = _auth.url;
-
-      User? user = await _auth.signupWithEmailAndPassword(
-          context, username, email, password, imageUrl);
-
-      if (user != null) {
-        print("User is successful");
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => BottomNav(),
-        ));
-      }
-    } else {
-      ShowSnackBar(context, "Please select an image");
-    }
   }
 }

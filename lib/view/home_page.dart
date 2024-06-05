@@ -79,9 +79,12 @@ class HomePage extends StatelessWidget {
                                 padding: const EdgeInsets.all(10),
                                 child: Row(
                                   children: [
-                                    CircleAvatar(),
+                                    CircleAvatar(
+                                      backgroundImage:
+                                          getImageProvider(data.userImage),
+                                    ),
                                     Gap(20),
-                                    Text(user?.email ?? 'No name'),
+                                    Text(data.username ?? 'No name'),
                                   ],
                                 ),
                               ),
@@ -162,5 +165,16 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  ImageProvider getImageProvider(String? imageUrl) {
+    if (imageUrl != null &&
+        imageUrl.isNotEmpty &&
+        Uri.tryParse(imageUrl)?.hasAbsolutePath == true) {
+      return NetworkImage(imageUrl);
+    } else {
+      return AssetImage(
+          'assets/images/hub-logo-design-template-free-vector-removebg-preview.png');
+    }
   }
 }
