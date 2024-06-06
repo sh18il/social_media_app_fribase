@@ -2,6 +2,7 @@ import 'package:connecthub_social/model/auth_model.dart';
 import 'package:connecthub_social/service/follow_service.dart';
 import 'package:connecthub_social/service/user_service.dart';
 import 'package:connecthub_social/view/user_profile_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -10,6 +11,7 @@ class AllUserPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentuser = FirebaseAuth.instance.currentUser!.uid;
     FollowService followService = FollowService();
     return Scaffold(
       backgroundColor: Color.fromARGB(221, 47, 46, 46),
@@ -25,10 +27,13 @@ class AllUserPage extends StatelessWidget {
               child: Text("error code"),
             );
           } else {
+            List<UserModel> users = (snapshot.data as List<UserModel>)
+                .where((user) => user.uid != currentuser)
+                .toList();
             return ListView.builder(
-              itemCount: snapshot.data!.length,
+              itemCount: users.length,
               itemBuilder: (context, index) {
-                final data = snapshot.data![index];
+                final data = users[index];
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(

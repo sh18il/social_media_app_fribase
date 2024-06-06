@@ -1,86 +1,6 @@
-// import 'dart:io';
-
-// import 'package:connecthub_social/controller/image_controller.dart';
-// import 'package:connecthub_social/model/image_post_model.dart';
-// import 'package:connecthub_social/service/image_post_service.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
-
-// class AddPage extends StatelessWidget {
-//   String? email;
-//   AddPage({super.key, this.email});
-
-//   TextEditingController descriptionCtrl = TextEditingController();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final height = MediaQuery.of(context).size.height * 1;
-//     final width = MediaQuery.of(context).size.width * 1;
-//     return SafeArea(
-//       child: Scaffold(
-//         body: SingleChildScrollView(
-//           child: Column(
-//             children: [
-//               Container(
-//                 child: Consumer<ImagesProvider>(builder: (context, pro, _) {
-//                   return FutureBuilder(
-//                     future: Future.value(pro.pickedImage),
-//                     builder: (context, snapshot) {
-//                       return Container(
-//                         height: height * 0.5,
-
-//                         decoration: BoxDecoration(
-//                           color: const Color.fromARGB(255, 125, 124, 122),
-//                           image: snapshot.data != null
-//                               ? DecorationImage(
-//                                   image: FileImage(snapshot.data!),
-//                                   fit: BoxFit.cover,
-//                                 )
-//                               : null,
-//                         ),
-//                       );
-//                     },
-//                   );
-//                 }),
-//               ),
-//               ElevatedButton(
-//                   onPressed: () {
-//                     Provider.of<ImagesProvider>(context, listen: false)
-//                         .pickImg();
-//                   },
-//                   child: Text("add pic")),
-//               TextFormField(
-//                 controller: descriptionCtrl,
-//                 decoration: InputDecoration(border: OutlineInputBorder()),
-//               ),
-//               ElevatedButton(
-//                   onPressed: () {
-//                     add(context);
-//                   },
-//                   child: Text("submit")),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
-//   add(BuildContext context) async {
-//     final user = FirebaseAuth.instance.currentUser!.uid;
-//     ImagePostService services = ImagePostService();
-//     final imageProvider = Provider.of<ImagesProvider>(context, listen: false);
-//     await services.addImage(File(imageProvider.pickedImage!.path), context);
-
-//     ImagePostModel imModel = ImagePostModel(
-//         image: services.url, description: descriptionCtrl.text, uid: user);
-
-//     await services.addPost(imModel);
-//   }
-// }
 import 'dart:io';
 import 'package:connecthub_social/controller/image_controller.dart';
-import 'package:connecthub_social/model/auth_model.dart';
+
 import 'package:connecthub_social/model/image_post_model.dart';
 import 'package:connecthub_social/service/follow_service.dart';
 import 'package:connecthub_social/service/image_post_service.dart';
@@ -102,10 +22,19 @@ class AddPage extends StatelessWidget {
 
     return SafeArea(
       child: PopScope(
+        canPop: true,
+        onPopInvoked: (didPop) {
+          Provider.of<ImagesProvider>(context, listen: false)
+              .clearPickedImage();
+        },
         child: Scaffold(
           backgroundColor: Color.fromARGB(221, 47, 46, 46),
           appBar: AppBar(
-            title: Text("Add New Post"),
+            backgroundColor: Color.fromARGB(221, 47, 46, 46),
+            title: Text(
+              "Add New Post",
+              style: TextStyle(color: Colors.white),
+            ),
             centerTitle: true,
           ),
           body: SingleChildScrollView(
@@ -228,7 +157,7 @@ class AddPage extends StatelessWidget {
           builder: (context) => BottomNav(),
         ),
         (route) => false,
-      ); // Navigate back after submitting
+      );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Please select an image.")),

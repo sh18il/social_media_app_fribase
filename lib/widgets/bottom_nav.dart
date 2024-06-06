@@ -17,7 +17,7 @@ class BottomNav extends StatefulWidget {
 class _BottomNavState extends State<BottomNav> {
   var screensList = [
     HomePage(),
-    const Text('Search'),
+    // const Text('Search'),
     AddPage(),
     AllUserPage(),
     ProfilePage(),
@@ -54,17 +54,17 @@ class _BottomNavState extends State<BottomNav> {
         selectedIconColor: Colors.red,
         unSelectedIconColor: Colors.red,
       ),
-      const LightBottomNavigationBarItem(
-        unSelectedIcon: Icons.search_outlined,
-        selectedIcon: Icons.search_outlined,
-        size: 30,
-        backgroundShadowColor: Colors.blue,
-        borderBottomColor: Colors.blue,
-        borderBottomWidth: 3,
-        splashColor: Colors.blue,
-        selectedIconColor: Colors.blue,
-        unSelectedIconColor: Colors.blue,
-      ),
+      // const LightBottomNavigationBarItem(
+      //   unSelectedIcon: Icons.search_outlined,
+      //   selectedIcon: Icons.search_outlined,
+      //   size: 30,
+      //   backgroundShadowColor: Colors.blue,
+      //   borderBottomColor: Colors.blue,
+      //   borderBottomWidth: 3,
+      //   splashColor: Colors.blue,
+      //   selectedIconColor: Colors.blue,
+      //   unSelectedIconColor: Colors.blue,
+      // ),
       const LightBottomNavigationBarItem(
         unSelectedIcon: Icons.post_add_sharp,
         selectedIcon: Icons.post_add_sharp,

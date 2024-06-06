@@ -3,8 +3,8 @@ import 'package:connecthub_social/controller/home_page_controller.dart';
 import 'package:connecthub_social/model/image_post_model.dart';
 import 'package:connecthub_social/service/image_post_service.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +15,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final user = FirebaseAuth.instance.currentUser;
 
     return SafeArea(
       child: Scaffold(
@@ -143,7 +142,11 @@ class HomePage extends StatelessWidget {
                                   ),
                                   Gap(20),
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      
+                                      
+                                      
+                                    },
                                     icon: Icon(Icons.insert_comment_outlined),
                                   ),
                                 ],

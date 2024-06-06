@@ -144,7 +144,7 @@ class UserProfilePage extends StatelessWidget {
                         itemCount: posts.length,
                         itemBuilder: (context, index) {
                           final post = posts[index];
-                          final id = postRef[index].id;
+                          // final id = postRef[index].id;
                           return Stack(
                             children: [
                               Container(

@@ -64,9 +64,10 @@ class FirebaseAuthService {
       ShowSnackBar(context, 'Failed to delete image: ${e.toString()}');
     }
   }
+  
 
-  Future<User?> signupWithEmailAndPassword(BuildContext context,
-      String username, String email, String password, String imageUrl) async {
+  Future<User?> signup(BuildContext context, String username, String email,
+      String password, String imageUrl) async {
     try {
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -107,7 +108,7 @@ class FirebaseAuthService {
     }
   }
 
-  Future<User?> signinWithEmailAndPassword(
+  Future<User?> signin(
       BuildContext context, String email, String password) async {
     try {
       UserCredential credential = await _auth.signInWithEmailAndPassword(

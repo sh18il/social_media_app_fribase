@@ -9,9 +9,9 @@ class UserModel {
 
   UserModel({
     this.username,
-     this.email,
+    this.email,
     this.uid,
-     this.password,
+    this.password,
     this.image,
     this.followers,
     this.following,
