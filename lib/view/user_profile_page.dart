@@ -3,6 +3,7 @@ import 'package:connecthub_social/model/auth_model.dart';
 import 'package:connecthub_social/model/image_post_model.dart';
 import 'package:connecthub_social/service/follow_service.dart';
 import 'package:connecthub_social/service/image_post_service.dart';
+import 'package:connecthub_social/view/follow_users_page.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
@@ -49,7 +50,7 @@ class UserProfilePage extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       maxRadius: 40,
-                      backgroundImage: NetworkImage(user.image ?? ""),
+                      backgroundImage: getImageProvider(user.image),
                     ),
                     Column(
                       children: [
@@ -63,17 +64,26 @@ class UserProfilePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Column(
-                      children: [
-                        Text(
-                          user.following.toString(),
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        Text(
-                          "Following",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ],
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => UserFollowersPage(
+                            userId: user.uid,
+                          ),
+                        ));
+                      },
+                      child: Column(
+                        children: [
+                          Text(
+                            user.following.toString(),
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Text(
+                            "Following",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -170,5 +180,15 @@ class UserProfilePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  ImageProvider getImageProvider(String? imageUrl) {
+    if (imageUrl != null &&
+        imageUrl.isNotEmpty &&
+        Uri.tryParse(imageUrl)?.hasAbsolutePath == true) {
+      return NetworkImage(imageUrl);
+    } else {
+      return AssetImage('assets/images/1077114.png');
+    }
   }
 }

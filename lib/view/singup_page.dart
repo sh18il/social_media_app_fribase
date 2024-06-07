@@ -144,7 +144,7 @@ class SignupPage extends StatelessWidget {
     String email = emailCtrl.text;
     String password = passwordCtrl.text;
 
-    if (selectedImage != null) {
+    // if (selectedImage != null) {
       await service.addImage(selectedImage!, context);
       String imageUrl = service.url;
 
@@ -157,8 +157,8 @@ class SignupPage extends StatelessWidget {
           builder: (context) => BottomNav(),
         ));
       }
-    } else {
+   // } else {
       ShowSnackBar(context, "Please select an image");
-    }
+  //  }
   }
 }

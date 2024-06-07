@@ -1,22 +1,31 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connecthub_social/model/auth_model.dart';
 import 'package:connecthub_social/service/follow_service.dart';
-import 'package:connecthub_social/service/user_service.dart';
 import 'package:connecthub_social/view/user_profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-class AllUserPage extends StatelessWidget {
-  const AllUserPage({super.key});
+class UserFollowersPage extends StatefulWidget {
+  String? userId;
+  UserFollowersPage({super.key, this.userId});
 
   @override
+  State<UserFollowersPage> createState() => _UserFollowersPageState();
+}
+
+class _UserFollowersPageState extends State<UserFollowersPage> {
+  @override
   Widget build(BuildContext context) {
-    final currentuser = FirebaseAuth.instance.currentUser!.uid;
     FollowService followService = FollowService();
+    final currentuser = FirebaseAuth.instance.currentUser!.uid;
     return Scaffold(
-      backgroundColor: Color.fromARGB(221, 47, 46, 46),
-      body: StreamBuilder(
-        stream: UserService().getUser(),
+      backgroundColor: const Color.fromARGB(255, 45, 40, 40),
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 45, 40, 40),
+      ),
+      body: FutureBuilder(
+        future: FollowService().getUserFollowers(widget.userId!),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -24,7 +33,7 @@ class AllUserPage extends StatelessWidget {
             );
           } else if (snapshot.hasError) {
             return Center(
-              child: Text("error code"),
+              child: Text("error"),
             );
           } else {
             List<UserModel> users = (snapshot.data as List<UserModel>)
@@ -40,7 +49,7 @@ class AllUserPage extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
-                            UserProfilePage(userId: data.uid!),
+                            UserProfilePage(userId: data.uid ?? ""),
                       ));
                     },
                     child: Container(

@@ -57,7 +57,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/hub-logo-design-template-free-vector-removebg-preview.png"
+  image_path: "assets/images/connect_hub_icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

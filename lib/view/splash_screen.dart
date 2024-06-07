@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Image(
                 image: AssetImage(
-                    "assets/images/hub-logo-design-template-free-vector-removebg-preview.png")),
+                    "assets/images/a-sleek-and-modern-3d-render-of-the-connect-hub-lo-aDv3q1bOTGO9qCZ23zbUWg-EVwOSYhYQiOQxM4Ubzil_A-removebg-preview.png")),
             Text(
               "CONNECT_HUB",
               style: TextStyle(

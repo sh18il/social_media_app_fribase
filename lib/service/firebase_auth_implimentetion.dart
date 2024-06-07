@@ -64,7 +64,6 @@ class FirebaseAuthService {
       ShowSnackBar(context, 'Failed to delete image: ${e.toString()}');
     }
   }
-  
 
   Future<User?> signup(BuildContext context, String username, String email,
       String password, String imageUrl) async {
@@ -123,7 +122,7 @@ class FirebaseAuthService {
     }
   }
 
-  Future<UserCredential?> signInWithGoogle() async {
+  Future<UserCredential?> signInWithGoogle(BuildContext context) async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -139,8 +138,33 @@ class FirebaseAuthService {
         idToken: googleAuth.idToken,
       );
 
-      return await FirebaseAuth.instance.signInWithCredential(credential);
+      UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
+      User? user = userCredential.user;
+      if (user != null) {
+        DocumentReference userDoc =
+            _firestore.collection('users').doc(user.uid);
+        DocumentSnapshot docSnapshot = await userDoc.get();
+
+        if (!docSnapshot.exists) {
+      
+          UserModel newUser = UserModel(
+            username: googleUser.displayName,
+            email: user.email,
+            
+            uid: user.uid,
+            image:"", 
+            followers: 0,
+            following: 0,
+          );
+
+          await userDoc.set(newUser.toJson());
+        }
+      }
+
+      return userCredential;
     } catch (e) {
+      ShowSnackBar(context, 'Error signing in with Google: $e');
       print('Error signing in with Google: $e');
       return null;
     }

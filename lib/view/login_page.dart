@@ -1,6 +1,6 @@
 import 'package:connecthub_social/controller/firebase_auth_contriller.dart';
 import 'package:connecthub_social/service/firebase_auth_implimentetion.dart';
-import 'package:connecthub_social/view/home_page.dart';
+
 import 'package:connecthub_social/view/singup_page.dart';
 import 'package:connecthub_social/widgets/bottom_nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,7 +29,7 @@ class LoginPage extends StatelessWidget {
                   height: 180,
                   child: Image(
                       image: AssetImage(
-                          "assets/images/hub-logo-design-template-free-vector-removebg-preview.png")),
+                          "assets/images/it-s-social-media-app-name-is-connect-hub-logo-3d--JM0aIQQSSvWkgMvE_dmyWw-EVwOSYhYQiOQxM4Ubzil_A-removebg-preview.png")),
                 ),
                 TextFormField(
                   controller: emailCtrl,
@@ -87,7 +87,7 @@ class LoginPage extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () {
-                              FirebaseAuthService().signInWithGoogle();
+                              FirebaseAuthService().signInWithGoogle(context);
                             },
                             child: ClipRRect(
                               child: Image(

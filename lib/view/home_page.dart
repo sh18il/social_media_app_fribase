@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
           leading: Image(
               fit: BoxFit.fill,
               image: AssetImage(
-                  "assets/images/hub-logo-design-template-free-vector-removebg-preview.png")),
+                  "assets/images/it-s-social-media-app-name-is-connect-hub-logo-3d--JM0aIQQSSvWkgMvE_dmyWw-EVwOSYhYQiOQxM4Ubzil_A-removebg-preview.png")),
           title: Text(
             "CONNECT_HUB",
             style: TextStyle(
@@ -142,11 +142,7 @@ class HomePage extends StatelessWidget {
                                   ),
                                   Gap(20),
                                   IconButton(
-                                    onPressed: () {
-                                      
-                                      
-                                      
-                                    },
+                                    onPressed: () {},
                                     icon: Icon(Icons.insert_comment_outlined),
                                   ),
                                 ],
@@ -176,8 +172,7 @@ class HomePage extends StatelessWidget {
         Uri.tryParse(imageUrl)?.hasAbsolutePath == true) {
       return NetworkImage(imageUrl);
     } else {
-      return AssetImage(
-          'assets/images/hub-logo-design-template-free-vector-removebg-preview.png');
+      return AssetImage('assets/images/1077114.png');
     }
   }
 }
