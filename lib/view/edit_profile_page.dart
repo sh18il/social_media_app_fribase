@@ -44,10 +44,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     backgroundImage: isNewImagePicked
                         ? FileImage(pro.editPickedImage!)
                         : widget.userModel?.image != null
-                            ? NetworkImage(
-                                    widget.userModel?.image.toString() ?? "no")
-                                as ImageProvider
-                            : null,
+                            ? getImageProvider(
+                                widget.userModel?.image.toString() ?? "no")
+                                
+                            : null
                   );
                 }),
                 TextButton(
@@ -91,11 +91,22 @@ class _EditProfilePageState extends State<EditProfilePage> {
     FirebaseAuthService service = FirebaseAuthService();
     String imageUrl = widget.userModel.image.toString();
     if (isNewImagePicked) {
-      imageUrl = await service.updateImage(
-          imageUrl, File(imageProvider.editPickedImage!.path), context);
+      imageUrl = (await service.updateImage(
+          imageUrl, File(imageProvider.editPickedImage!.path), context))!;
+      //  imageUrl, File(imageProvider.editPickedImage!.path), context);
     }
     final newData = usernameCtrl.text;
-    await pro.EditUserProfile(context, newData, widget.id);
+    await pro.EditUserProfile(context, newData, widget.id, imageUrl);
     Navigator.pop(context);
+  }
+
+  ImageProvider getImageProvider(String? imageUrl) {
+    if (imageUrl != null &&
+        imageUrl.isNotEmpty &&
+        Uri.tryParse(imageUrl)?.hasAbsolutePath == true) {
+      return NetworkImage(imageUrl);
+    } else {
+      return AssetImage('assets/images/1077114.png');
+    }
   }
 }

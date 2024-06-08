@@ -1,9 +1,13 @@
 import 'dart:io';
+import 'dart:typed_data';
+import 'package:path_provider/path_provider.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:connecthub_social/model/auth_model.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthService {
@@ -42,6 +46,24 @@ class FirebaseAuthService {
       ShowSnackBar(context, 'Failed to upload image: ${e.toString()}');
     }
   }
+  //  Future<String> uploadDefaultImage(String assetPath, BuildContext context) async {
+  //   try {
+  //     // Load the image from assets and convert it to a file
+  //     ByteData byteData = await rootBundle.load(assetPath);
+  //     List<int> imageData = byteData.buffer.asUint8List();
+  //     File tempFile = File('${(await getTemporaryDirectory()).path}/default.png');
+  //     await tempFile.writeAsBytes(imageData);
+
+  //     // Upload the file to Firebase Storage
+  //     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+  //     Reference storageRef = FirebaseStorage.instance.ref().child('images').child(fileName);
+  //     await storageRef.putFile(tempFile);
+  //     return await storageRef.getDownloadURL();
+  //   } catch (e) {
+  //     ShowSnackBar(context, 'Failed to upload default image: ${e.toString()}');
+  //     return '';
+  //   }
+  // }
 
   Future updateImage(
       String imageUrl, File updateImage, BuildContext context) async {
@@ -80,6 +102,8 @@ class FirebaseAuthService {
           uid: user.uid,
           password: password,
           image: imageUrl,
+          followers: 0,
+          following: 0
         );
 
         await _firestore
@@ -151,7 +175,7 @@ class FirebaseAuthService {
           UserModel newUser = UserModel(
             username: googleUser.displayName,
             email: user.email,
-            
+
             uid: user.uid,
             image:"", 
             followers: 0,

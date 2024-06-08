@@ -10,7 +10,7 @@ class FirebaseAuthContriller extends ChangeNotifier {
   FirebaseAuthService service = FirebaseAuthService();
 
   Future<void> EditUserProfile(
-      BuildContext context, String userName, String id) async {
+      BuildContext context, String userName, String id, String imageUrl) async {
     try {
       await service.updateUserProfile(context, userName, id);
       notifyListeners();
@@ -18,6 +18,7 @@ class FirebaseAuthContriller extends ChangeNotifier {
       ShowSnackBar(context, "edit is error $e");
     }
   }
+  
 
   Future signup(BuildContext context, String username, String email,
       String password, String imageUrl) async {

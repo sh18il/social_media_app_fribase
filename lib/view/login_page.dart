@@ -1,5 +1,6 @@
 import 'package:connecthub_social/controller/firebase_auth_contriller.dart';
 import 'package:connecthub_social/service/firebase_auth_implimentetion.dart';
+import 'package:connecthub_social/view/phone_page.dart';
 
 import 'package:connecthub_social/view/singup_page.dart';
 import 'package:connecthub_social/widgets/bottom_nav.dart';
@@ -97,15 +98,19 @@ class LoginPage extends StatelessWidget {
                             ),
                           ),
                           Gap(30),
-                          // InkWell(
-                          //   onTap: () {},
-                          //   child: ClipRRect(
-                          //     child: Image(
-                          //         width: width * 0.08,
-                          //         image: NetworkImage(
-                          //             "https://seeklogo.com/images/G/github-logo-5F384D0265-seeklogo.com.png")),
-                          //   ),
-                          // )
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => PhoneOtpPage(),
+                              ));
+                            },
+                            child: ClipRRect(
+                              child: Image(
+                                  width: width * 0.08,
+                                  image: NetworkImage(
+                                      "https://www.clipartmax.com/png/middle/207-2074506_sms-verification-comments-sms-black-icon-png.png")),
+                            ),
+                          )
                         ],
                       ),
                     ),

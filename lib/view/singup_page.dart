@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:connecthub_social/controller/sigin_page.dart';
+import 'package:connecthub_social/model/auth_model.dart';
 import 'package:connecthub_social/service/firebase_auth_implimentetion.dart';
 import 'package:connecthub_social/widgets/bottom_nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -38,24 +39,16 @@ class SignupPage extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Colors.grey[200],
                           borderRadius: BorderRadius.circular(70),
-                          image: snapshot.data != null
+                          image: selectedImage != null
                               ? DecorationImage(
                                   image: FileImage(snapshot.data!),
                                   fit: BoxFit.cover,
                                 )
-                              : null,
+                              : DecorationImage(
+                                  image:
+                                      AssetImage("assets/images/1077114.png")),
                         ),
-                        child: snapshot.data == null
-                            ? Center(
-                                child: Text(
-                                  "No image",
-                                  style: TextStyle(
-                                    color: Colors.grey[600],
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              )
-                            : null,
+                       
                       ),
                     );
                   },
@@ -144,21 +137,20 @@ class SignupPage extends StatelessWidget {
     String email = emailCtrl.text;
     String password = passwordCtrl.text;
 
-    // if (selectedImage != null) {
+    String imageUrl = '';
+    if (selectedImage != null) {
       await service.addImage(selectedImage!, context);
-      String imageUrl = service.url;
+      imageUrl = service.url;
+    }
 
-      User? user =
-          await service.signup(context, username, email, password, imageUrl);
+    User? user =
+        await service.signup(context, username, email, password, imageUrl);
 
-      if (user != null) {
-        print("User is successful");
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => BottomNav(),
-        ));
-      }
-   // } else {
-      ShowSnackBar(context, "Please select an image");
-  //  }
+    if (user != null) {
+      print("User is successful");
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => BottomNav(),
+      ));
+    }
   }
 }
