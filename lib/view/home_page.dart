@@ -3,14 +3,13 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connecthub_social/controller/home_page_controller.dart';
 import 'package:connecthub_social/model/image_post_model.dart';
-import 'package:connecthub_social/service/image_post_service.dart';
+
 import 'package:connecthub_social/view/comment_page.dart';
 import 'package:connecthub_social/widgets/shimmer_effect.dart';
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
-import 'package:fade_shimmer/fade_shimmer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -148,12 +147,11 @@ class HomePage extends StatelessWidget {
                                       );
                                     },
                                   ),
-                                  const Gap(20), 
+                                  const Gap(20),
                                   IconButton(
                                     onPressed: () {
                                       showModalBottomSheet(
                                         elevation: 5,
-                                     
                                         context: context,
                                         builder: (context) {
                                           return CommentPage(postId: postId);

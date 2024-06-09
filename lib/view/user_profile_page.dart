@@ -4,7 +4,6 @@ import 'package:connecthub_social/controller/user_controller.dart';
 import 'package:connecthub_social/model/auth_model.dart';
 import 'package:connecthub_social/model/image_post_model.dart';
 import 'package:connecthub_social/service/follow_service.dart';
-import 'package:connecthub_social/service/image_post_service.dart';
 import 'package:connecthub_social/view/follow_users_page.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';

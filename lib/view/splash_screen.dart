@@ -1,5 +1,4 @@
 import 'package:connecthub_social/view/auth.dart';
-import 'package:connecthub_social/widgets/shimmer_effect.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';

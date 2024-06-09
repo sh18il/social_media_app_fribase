@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:connecthub_social/controller/firebase_auth_contriller.dart';
 import 'package:connecthub_social/controller/image_controller.dart';
 import 'package:connecthub_social/model/auth_model.dart';
