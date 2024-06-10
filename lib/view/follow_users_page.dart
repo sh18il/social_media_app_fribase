@@ -1,22 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connecthub_social/controller/follow_service_controller.dart';
 import 'package:connecthub_social/model/auth_model.dart';
 import 'package:connecthub_social/service/follow_service.dart';
 import 'package:connecthub_social/view/user_profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
-class UserFollowersPage extends StatefulWidget {
+class UserFollowersPage extends StatelessWidget {
   String? userId;
   UserFollowersPage({super.key, this.userId});
 
   @override
-  State<UserFollowersPage> createState() => _UserFollowersPageState();
-}
-
-class _UserFollowersPageState extends State<UserFollowersPage> {
-  @override
   Widget build(BuildContext context) {
+    final provider =
+        Provider.of<FollowServiceController>(context, listen: false);
     FollowService followService = FollowService();
     final currentuser = FirebaseAuth.instance.currentUser!.uid;
     return Scaffold(
@@ -24,9 +23,10 @@ class _UserFollowersPageState extends State<UserFollowersPage> {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 45, 40, 40),
       ),
-      body: FutureBuilder(
-        future: FollowService().getUserFollowers(widget.userId!),
-        builder: (context, snapshot) {
+      body: FutureBuilder<List<UserModel>>(
+        future: provider.userFollowersGeting(userId!),
+        // FollowService().getUserFollowers(widget.userId!),
+        builder: (context, AsyncSnapshot<List<UserModel>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: CircularProgressIndicator(),
@@ -36,13 +36,13 @@ class _UserFollowersPageState extends State<UserFollowersPage> {
               child: Text("error"),
             );
           } else {
-            List<UserModel> users = (snapshot.data as List<UserModel>)
+            List<UserModel> users = (snapshot.data)!
                 .where((user) => user.uid != currentuser)
                 .toList();
             return ListView.builder(
               itemCount: users.length,
               itemBuilder: (context, index) {
-                final data = users[index];
+                final data = snapshot.data![index];
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
@@ -76,6 +76,7 @@ class _UserFollowersPageState extends State<UserFollowersPage> {
                           ),
                           FutureBuilder<bool>(
                             future:
+                            //.................................
                                 followService.isFollowing(data.uid.toString()),
                             builder: (context, snapshot) {
                               if (!snapshot.hasData) {
@@ -85,11 +86,11 @@ class _UserFollowersPageState extends State<UserFollowersPage> {
                               return ElevatedButton(
                                 onPressed: () async {
                                   if (isFollowing) {
-                                    await followService
-                                        .unfollowUser(data.uid.toString());
+                                    await provider
+                                        .unfollowCount(data.uid.toString());
                                   } else {
-                                    await followService
-                                        .followUser(data.uid.toString());
+                                    await provider
+                                        .followUserCount(data.uid.toString());
                                   }
                                   // Refresh the state to update the button text
                                   (context as Element).reassemble();

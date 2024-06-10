@@ -1,14 +1,19 @@
+import 'package:connecthub_social/service/firebase_phone_auth.dart';
+import 'package:connecthub_social/view/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 class PhoneOtpPage extends StatelessWidget {
-  const PhoneOtpPage({super.key});
+  PhoneOtpPage({super.key});
+  final formKey = GlobalKey<FormState>();
+  final formKey1 = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     TextEditingController phoneCtrl = TextEditingController();
+    TextEditingController otpCtrl = TextEditingController();
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -23,18 +28,90 @@ class PhoneOtpPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextFormField(
-                  controller: phoneCtrl,
-                  decoration: InputDecoration(
-                    prefix: Text("+91"),
-                    prefixIcon: Icon(Icons.phone),
-                    labelText: "Enter Phone Number",
-                    border: OutlineInputBorder(),
+                Form(
+                  key: formKey,
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    controller: phoneCtrl,
+                    decoration: InputDecoration(
+                      prefix: Text("+91"),
+                      prefixIcon: Icon(Icons.phone),
+                      labelText: "Enter Phone Number",
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value!.length != 10) return "invalid phone number";
+                      return null;
+                    },
                   ),
                 ),
                 Gap(20),
                 ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        PhoneOtpAuth.sentOtp(
+                            phone: phoneCtrl.text,
+                            errorStep: () => ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                        content: Text(
+                                  "Error in sending otp ",
+                                ))),
+                            nextStep: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text("otp verification"),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text("Enter 6 digit Otp"),
+                                      Gap(15),
+                                      Form(
+                                        key: formKey1,
+                                        child: TextFormField(
+                                          keyboardType: TextInputType.number,
+                                          controller: otpCtrl,
+                                          decoration: InputDecoration(
+                                            labelText: "Enter Phone Number",
+                                            border: OutlineInputBorder(),
+                                          ),
+                                          validator: (value) {
+                                            if (value!.length != 6)
+                                              return "invalid otp number";
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          if (formKey1.currentState!
+                                              .validate()) {
+                                            PhoneOtpAuth.loginWithOtp(
+                                                    otp: otpCtrl.text)
+                                                .then((value) {
+                                              if (value == "Success") {
+                                                Navigator.pop(context);
+                                                Navigator.of(context)
+                                                    .pushReplacement(
+                                                        MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AuthPage(),
+                                                ));
+                                              }
+                                            });
+                                          }
+                                        },
+                                        child: Text("Submit"))
+                                  ],
+                                ),
+                              );
+                            });
+                      }
+                    },
                     child: Text("Send Otp"),
                     style: ButtonStyle(
                         elevation: WidgetStatePropertyAll(25),
@@ -45,16 +122,5 @@ class PhoneOtpPage extends StatelessWidget {
         ),
       ),
     );
-  }
-  sendCode()async{
-try {
-  TextEditingController phoneAuthCtrl =TextEditingController();
-      await FirebaseAuth.instance.verifyPhoneNumber(
-        //  phoneAuthCtrl :"+91"+phoneAuthCtrl.text,
-        verificationCompleted: verificationCompleted, verificationFailed: verificationFailed, codeSent: codeSent, codeAutoRetrievalTimeout: codeAutoRetrievalTimeout)
-
-} catch (e) {
-  print(e); 
-}
   }
 }

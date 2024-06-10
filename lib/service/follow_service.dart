@@ -92,6 +92,7 @@ class FollowService {
     } catch (e) {
       ShowSnackBar(context, "gett data is error $e");
     }
+    return null;
   }
 
   void ShowSnackBar(BuildContext context, String message) {

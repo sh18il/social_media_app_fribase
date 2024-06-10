@@ -1,7 +1,7 @@
-import 'dart:io';
+
 
 import 'package:connecthub_social/service/firebase_auth_implimentetion.dart';
-import 'package:connecthub_social/widgets/bottom_nav.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +18,7 @@ class FirebaseAuthContriller extends ChangeNotifier {
       ShowSnackBar(context, "edit is error $e");
     }
   }
-  
+
 
   Future signup(BuildContext context, String username, String email,
       String password, String imageUrl) async {

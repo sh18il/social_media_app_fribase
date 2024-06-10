@@ -1,3 +1,4 @@
+import 'package:connecthub_social/controller/follow_service_controller.dart';
 import 'package:connecthub_social/model/auth_model.dart';
 import 'package:connecthub_social/service/follow_service.dart';
 import 'package:connecthub_social/service/user_service.dart';
@@ -5,6 +6,7 @@ import 'package:connecthub_social/view/user_profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 class AllUserPage extends StatelessWidget {
   const AllUserPage({super.key});
@@ -12,7 +14,8 @@ class AllUserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentuser = FirebaseAuth.instance.currentUser!.uid;
-    FollowService followService = FollowService();
+   FollowService followService = FollowService();
+   final provider =Provider.of<FollowServiceController>(context,listen: false);
     return Scaffold(
       backgroundColor: Color.fromARGB(221, 47, 46, 46),
       body: StreamBuilder(
@@ -67,6 +70,7 @@ class AllUserPage extends StatelessWidget {
                           ),
                           FutureBuilder<bool>(
                             future:
+                            //...........................................
                                 followService.isFollowing(data.uid.toString()),
                             builder: (context, snapshot) {
                               if (!snapshot.hasData) {
@@ -76,11 +80,11 @@ class AllUserPage extends StatelessWidget {
                               return ElevatedButton(
                                 onPressed: () async {
                                   if (isFollowing) {
-                                    await followService
-                                        .unfollowUser(data.uid.toString());
+                                    await provider
+                                        .unfollowCount(data.uid.toString());
                                   } else {
-                                    await followService
-                                        .followUser(data.uid.toString());
+                                    await provider
+                                        .followUserCount(data.uid.toString());
                                   }
                                   // Refresh the state to update the button text
                                   (context as Element).reassemble();

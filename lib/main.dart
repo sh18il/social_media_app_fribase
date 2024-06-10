@@ -1,4 +1,5 @@
 import 'package:connecthub_social/controller/firebase_auth_contriller.dart';
+import 'package:connecthub_social/controller/follow_service_controller.dart';
 import 'package:connecthub_social/controller/home_page_controller.dart';
 import 'package:connecthub_social/controller/image_controller.dart';
 import 'package:connecthub_social/controller/sigin_page.dart';
@@ -33,6 +34,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => FirebaseAuthContriller(),
+        ),
+                ChangeNotifierProvider(
+          create: (context) => FollowServiceController(),
         ),
       ],
       child: MaterialApp(

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connecthub_social/controller/follow_service_controller.dart';
 import 'package:connecthub_social/model/auth_model.dart';
 import 'package:connecthub_social/model/image_post_model.dart';
 import 'package:connecthub_social/service/follow_service.dart';
@@ -9,6 +10,7 @@ import 'package:connecthub_social/view/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -18,7 +20,9 @@ class ProfilePage extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final userid = FirebaseAuth.instance.currentUser!.uid;
+    final provider = Provider.of<FollowServiceController>(context, listen: false);
     return FutureBuilder(
+      //.....................
         future: FollowService().getUserData(context, userid),
         builder: (context, snapshot) {
           UserModel? user = snapshot.data;
