@@ -32,7 +32,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color.fromARGB(221, 47, 46, 46),
+        backgroundColor: const Color.fromARGB(221, 47, 46, 46),
         body: Center(
           child: SingleChildScrollView(
             child: Column(
@@ -43,9 +43,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     radius: 40,
                     backgroundImage: isNewImagePicked
                         ? FileImage(pro.editPickedImage!)
-                        : widget.userModel?.image != null
+                        : widget.userModel.image != null
                             ? getImageProvider(
-                                widget.userModel?.image.toString() ?? "no")
+                                widget.userModel.image.toString() ?? "no")
                                 
                             : null
                   );
@@ -59,24 +59,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   },
                   child: const Text("Pick Image"),
                 ),
-                Gap(20),
+                const Gap(20),
                 TextFormField(
                   controller: usernameCtrl,
                   decoration: InputDecoration(
-                      label: Text(
+                      label: const Text(
                         "UserName",
                         style: TextStyle(color: Colors.white),
                       ),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20))),
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
-                Gap(14),
+                const Gap(14),
                 ElevatedButton(
                     onPressed: () {
                       edituserPage(context);
                     },
-                    child: Text("submit"))
+                    child: const Text("submit"))
               ],
             ),
           ),
@@ -106,7 +106,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         Uri.tryParse(imageUrl)?.hasAbsolutePath == true) {
       return NetworkImage(imageUrl);
     } else {
-      return AssetImage('assets/images/1077114.png');
+      return const AssetImage('assets/images/1077114.png');
     }
   }
 }

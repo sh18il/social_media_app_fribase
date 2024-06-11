@@ -17,16 +17,16 @@ class AllUserPage extends StatelessWidget {
    FollowService followService = FollowService();
    final provider =Provider.of<FollowServiceController>(context,listen: false);
     return Scaffold(
-      backgroundColor: Color.fromARGB(221, 47, 46, 46),
+      backgroundColor: const Color.fromARGB(221, 47, 46, 46),
       body: StreamBuilder(
         stream: UserService().getUser(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasError) {
-            return Center(
+            return const Center(
               child: Text("error code"),
             );
           } else {
@@ -50,7 +50,7 @@ class AllUserPage extends StatelessWidget {
                       height: 70,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          color: Color.fromARGB(255, 34, 30, 27)),
+                          color: const Color.fromARGB(255, 34, 30, 27)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -60,10 +60,10 @@ class AllUserPage extends StatelessWidget {
                                 maxRadius: 30,
                                 backgroundImage: getImageProvider(data.image),
                               ),
-                              Gap(40),
+                              const Gap(40),
                               Text(
                                 data.username.toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 17, color: Colors.white),
                               ),
                             ],
@@ -74,7 +74,7 @@ class AllUserPage extends StatelessWidget {
                                 followService.isFollowing(data.uid.toString()),
                             builder: (context, snapshot) {
                               if (!snapshot.hasData) {
-                                return CircularProgressIndicator();
+                                return const CircularProgressIndicator();
                               }
                               bool isFollowing = snapshot.data!;
                               return ElevatedButton(
@@ -119,7 +119,7 @@ class AllUserPage extends StatelessWidget {
         Uri.tryParse(imageUrl)?.hasAbsolutePath == true) {
       return NetworkImage(imageUrl);
     } else {
-      return AssetImage('assets/images/1077114.png');
+      return const AssetImage('assets/images/1077114.png');
     }
   }
 }

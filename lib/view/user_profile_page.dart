@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connecthub_social/controller/follow_service_controller.dart';
 import 'package:connecthub_social/model/auth_model.dart';
 import 'package:connecthub_social/model/image_post_model.dart';
 import 'package:connecthub_social/service/follow_service.dart';
@@ -10,12 +11,14 @@ import 'package:provider/provider.dart';
 
 class UserProfilePage extends StatelessWidget {
   final String userId;
-  const UserProfilePage({Key? key, required this.userId}) : super(key: key);
+  const UserProfilePage({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final followService = FollowService();
+    // final provider =
+    //     Provider.of<FollowServiceController>(context, listen: false);
 
     return SafeArea(
       child: Scaffold(
@@ -24,7 +27,7 @@ class UserProfilePage extends StatelessWidget {
           future: followService.getUserData(context, userId),
           builder: (context, userSnapshot) {
             if (userSnapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
 
             if (userSnapshot.hasError) {
@@ -32,19 +35,27 @@ class UserProfilePage extends StatelessWidget {
             }
 
             if (!userSnapshot.hasData) {
-              return Center(child: Text("User not found"));
+              return const Center(child: Text("User not found"));
             }
 
             UserModel user = userSnapshot.data!;
 
             return Column(
               children: [
-                Gap(30),
-                Text(
-                  user.username.toString().toUpperCase() ?? "No Username",
-                  style: TextStyle(fontSize: 20, color: Colors.white),
+                const Gap(30),
+                Padding(
+                  padding: const EdgeInsets.only(left: 45),
+                  child: Row(
+                    children: [
+                      Text(
+                        user.username.toString().toUpperCase() ?? "No Username",
+                        style:
+                            const TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                    ],
+                  ),
                 ),
-                Gap(20),
+                const Gap(20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -56,9 +67,9 @@ class UserProfilePage extends StatelessWidget {
                       children: [
                         Text(
                           user.followers.toString(),
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
-                        Text(
+                        const Text(
                           "Followers",
                           style: TextStyle(color: Colors.white),
                         ),
@@ -76,9 +87,9 @@ class UserProfilePage extends StatelessWidget {
                         children: [
                           Text(
                             user.following.toString(),
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                           ),
-                          Text(
+                          const Text(
                             "Following",
                             style: TextStyle(color: Colors.white),
                           ),
@@ -87,48 +98,51 @@ class UserProfilePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                Gap(20),
-                FutureBuilder<bool>(
-                  future: followService.isFollowing(userId),
-                  builder: (context, followSnapshot) {
-                    if (followSnapshot.connectionState ==
-                        ConnectionState.waiting) {
-                      return CircularProgressIndicator();
-                    }
+                const Gap(20),
+                Consumer<FollowServiceController>(builder: (context, pro, _) {
+                  return FutureBuilder<bool>(
+                    future: followService.isFollowing(userId),
+                    builder: (context, followSnapshot) {
+                      if (followSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      }
 
-                    if (followSnapshot.hasError) {
-                      return Text("Error: ${followSnapshot.error}");
-                    }
+                      if (followSnapshot.hasError) {
+                        return Text("Error: ${followSnapshot.error}");
+                      }
 
-                    bool isFollowing = followSnapshot.data ?? false;
+                      bool isFollowing = followSnapshot.data ?? false;
 
-                    return ElevatedButton(
-                      onPressed: () async {
-                        if (isFollowing) {
-                          await followService.unfollowUser(userId);
-                        } else {
-                          await followService.followUser(userId);
-                        }
-                        // Refresh the follow status and user data
-                        (context as Element).reassemble();
-                      },
-                      child: Text(isFollowing ? 'Unfollow' : 'Follow'),
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: isFollowing ? Colors.red : Colors.blue,
-                        elevation: 7,
-                        fixedSize: Size.fromWidth(width),
-                      ),
-                    );
-                  },
-                ),
+                      return ElevatedButton(
+                        onPressed: () async {
+                          if (isFollowing) {
+                            await pro.unfollowCount(userId);
+                          } else {
+                            await pro.followUserCount(userId);
+                          }
+                          // Refresh the follow status and user data
+                          (context as Element).reassemble();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor:
+                              isFollowing ? Colors.red : Colors.blue,
+                          elevation: 7,
+                          fixedSize: Size.fromWidth(width),
+                        ),
+                        child: Text(isFollowing ? 'Unfollow' : 'Follow'),
+                      );
+                    },
+                  );
+                }),
                 Expanded(
                   child: StreamBuilder<QuerySnapshot<ImagePostModel>>(
                     stream: ImagePostService().getPostUser(
-                        ImagePostModel(uid: user.uid), user?.uid ?? ""),
+                        ImagePostModel(uid: user.uid), user.uid ?? ""),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       }
 
                       if (snapshot.hasError) {
@@ -136,7 +150,7 @@ class UserProfilePage extends StatelessWidget {
                       }
 
                       if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                        return Center(child: Text('No posts found.'));
+                        return const Center(child: Text('No posts found.'));
                       }
 
                       final posts =
@@ -145,7 +159,8 @@ class UserProfilePage extends StatelessWidget {
                           snapshot.data?.docs ?? [];
 
                       return GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 5,
@@ -157,7 +172,7 @@ class UserProfilePage extends StatelessWidget {
                           // final id = postRef[index].id;
                           return Stack(
                             children: [
-                              Container(
+                              SizedBox(
                                 width: width * 0.5,
                                 child: Card(
                                   elevation: 7,
@@ -188,7 +203,7 @@ class UserProfilePage extends StatelessWidget {
         Uri.tryParse(imageUrl)?.hasAbsolutePath == true) {
       return NetworkImage(imageUrl);
     } else {
-      return AssetImage('assets/images/1077114.png');
+      return const AssetImage('assets/images/1077114.png');
     }
   }
 }

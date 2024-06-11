@@ -4,7 +4,6 @@ import 'package:connecthub_social/model/image_post_model.dart';
 import 'package:connecthub_social/service/image_post_service.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
@@ -18,17 +17,17 @@ class HomePage extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color.fromARGB(221, 47, 46, 46),
+        backgroundColor: const Color.fromARGB(221, 47, 46, 46),
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(96, 63, 54, 54),
           actions: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.chat_outlined))
+            IconButton(onPressed: () {}, icon: const Icon(Icons.chat_outlined))
           ],
-          leading: Image(
+          leading: const Image(
               fit: BoxFit.fill,
               image: AssetImage(
                   "assets/images/it-s-social-media-app-name-is-connect-hub-logo-3d--JM0aIQQSSvWkgMvE_dmyWw-EVwOSYhYQiOQxM4Ubzil_A-removebg-preview.png")),
-          title: Text(
+          title: const Text(
             "CONNECT_HUB",
             style: TextStyle(
                 color: Colors.white,
@@ -40,7 +39,7 @@ class HomePage extends StatelessWidget {
           stream: ImagePostService().getPost(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             } else if (snapshot.hasError) {
@@ -82,12 +81,12 @@ class HomePage extends StatelessWidget {
                                       backgroundImage:
                                           getImageProvider(data.userImage),
                                     ),
-                                    Gap(20),
+                                    const Gap(20),
                                     Text(data.username ?? 'No name'),
                                   ],
                                 ),
                               ),
-                              Container(
+                              SizedBox(
                                 width: width,
                                 height: height * 0.55,
                                 child: Image(
@@ -97,10 +96,10 @@ class HomePage extends StatelessWidget {
                               ),
                               Row(
                                 children: [
-                                  Gap(5),
+                                  const Gap(5),
                                   Text(
                                     data.description.toString(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
                                   ),
@@ -140,16 +139,16 @@ class HomePage extends StatelessWidget {
                                       );
                                     },
                                   ),
-                                  Gap(20),
+                                  const Gap(20),
                                   IconButton(
                                     onPressed: () {},
-                                    icon: Icon(Icons.insert_comment_outlined),
+                                    icon: const Icon(Icons.insert_comment_outlined),
                                   ),
                                 ],
                               ),
                               IconButton(
                                 onPressed: () {},
-                                icon: Icon(Icons.label_important_outline),
+                                icon: const Icon(Icons.label_important_outline),
                               ),
                             ],
                           ),
@@ -172,7 +171,7 @@ class HomePage extends StatelessWidget {
         Uri.tryParse(imageUrl)?.hasAbsolutePath == true) {
       return NetworkImage(imageUrl);
     } else {
-      return AssetImage('assets/images/1077114.png');
+      return const AssetImage('assets/images/1077114.png');
     }
   }
 }

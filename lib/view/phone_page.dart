@@ -1,7 +1,6 @@
 import 'package:connecthub_social/service/firebase_phone_auth.dart';
 import 'package:connecthub_social/view/auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -19,7 +18,7 @@ class PhoneOtpPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               image: DecorationImage(
             image: AssetImage(
                 "assets/images/a-sleek-and-modern-3d-render-of-the-connect-hub-lo-aDv3q1bOTGO9qCZ23zbUWg-EVwOSYhYQiOQxM4Ubzil_A-removebg-preview.png"),
@@ -33,7 +32,7 @@ class PhoneOtpPage extends StatelessWidget {
                   child: TextFormField(
                     keyboardType: TextInputType.number,
                     controller: phoneCtrl,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       prefix: Text("+91"),
                       prefixIcon: Icon(Icons.phone),
                       labelText: "Enter Phone Number",
@@ -45,14 +44,14 @@ class PhoneOtpPage extends StatelessWidget {
                     },
                   ),
                 ),
-                Gap(20),
+                const Gap(20),
                 ElevatedButton(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         PhoneOtpAuth.sentOtp(
                             phone: phoneCtrl.text,
                             errorStep: () => ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
+                                    .showSnackBar(const SnackBar(
                                         content: Text(
                                   "Error in sending otp ",
                                 ))),
@@ -60,26 +59,29 @@ class PhoneOtpPage extends StatelessWidget {
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
-                                  title: Text("otp verification"),
+                                  title: const Text("otp verification"),
                                   content: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      Text("Enter 6 digit Otp"),
-                                      Gap(15),
+                                      const Text("Enter 6 digit Otp"),
+                                      const Gap(15),
                                       Form(
                                         key: formKey1,
                                         child: TextFormField(
                                           keyboardType: TextInputType.number,
                                           controller: otpCtrl,
-                                          decoration: InputDecoration(
+                                          decoration: const InputDecoration(
                                             labelText: "Enter Phone Number",
                                             border: OutlineInputBorder(),
                                           ),
                                           validator: (value) {
-                                            if (value!.length != 6)
+                                            if (value!.length != 6) {
                                               return "invalid otp number";
+                                            return null;
+                                            }
+                                            return null;
                                           },
                                         ),
                                       ),
@@ -99,23 +101,23 @@ class PhoneOtpPage extends StatelessWidget {
                                                     .pushReplacement(
                                                         MaterialPageRoute(
                                                   builder: (context) =>
-                                                      AuthPage(),
+                                                      const AuthPage(),
                                                 ));
                                               }
                                             });
                                           }
                                         },
-                                        child: Text("Submit"))
+                                        child: const Text("Submit"))
                                   ],
                                 ),
                               );
                             });
                       }
                     },
-                    child: Text("Send Otp"),
-                    style: ButtonStyle(
+                    style: const ButtonStyle(
                         elevation: WidgetStatePropertyAll(25),
-                        backgroundColor: WidgetStatePropertyAll(Colors.amber)))
+                        backgroundColor: WidgetStatePropertyAll(Colors.amber)),
+                    child: const Text("Send Otp"))
               ],
             ),
           ),

@@ -1,8 +1,5 @@
 import 'package:connecthub_social/view/auth.dart';
-import 'package:connecthub_social/view/login_page.dart';
-import 'package:connecthub_social/widgets/bottom_nav.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -15,9 +12,9 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 4), () {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => AuthPage(),
+        builder: (context) => const AuthPage(),
       ));
     });
     super.initState();
@@ -25,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Color.fromARGB(221, 47, 46, 46),
       body: Center(
         child: Column(

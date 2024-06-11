@@ -25,8 +25,8 @@ class LoginPage extends StatelessWidget {
             scrollDirection: Axis.vertical,
             child: Column(
               children: [
-                Gap(20),
-                Container(
+                const Gap(20),
+                const SizedBox(
                   height: 180,
                   child: Image(
                       image: AssetImage(
@@ -35,20 +35,20 @@ class LoginPage extends StatelessWidget {
                 TextFormField(
                   controller: emailCtrl,
                   decoration: InputDecoration(
-                      label: Text("Email"),
+                      label: const Text("Email"),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20))),
                 ),
-                Gap(30),
+                const Gap(30),
                 TextFormField(
                   obscureText: true,
                   controller: passwordCtrl,
                   decoration: InputDecoration(
-                      label: Text("password"),
+                      label: const Text("password"),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20))),
                 ),
-                Gap(30),
+                const Gap(30),
                 Consumer<FirebaseAuthContriller>(builder: (context, pro, _) {
                   return InkWell(
                     onTap: () async {
@@ -60,24 +60,24 @@ class LoginPage extends StatelessWidget {
                       height: 30,
                       width: 100,
                       color: Colors.amber,
-                      child: Center(child: Text('Login')),
+                      child: const Center(child: Text('Login')),
                     ),
                   );
                 }),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Don't have an account?"),
+                    const Text("Don't have an account?"),
                     TextButton(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => SignupPage(),
                           ));
                         },
-                        child: Text("Sing-Up")),
+                        child: const Text("Sing-Up")),
                   ],
                 ),
-                Gap(20),
+                const Gap(20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -93,11 +93,11 @@ class LoginPage extends StatelessWidget {
                             child: ClipRRect(
                               child: Image(
                                   width: width * 0.08,
-                                  image: NetworkImage(
+                                  image: const NetworkImage(
                                       "https://static.vecteezy.com/system/resources/previews/022/484/503/non_2x/google-lens-icon-logo-symbol-free-png.png")),
                             ),
                           ),
-                          Gap(30),
+                          const Gap(30),
                           InkWell(
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
@@ -107,7 +107,7 @@ class LoginPage extends StatelessWidget {
                             child: ClipRRect(
                               child: Image(
                                   width: width * 0.08,
-                                  image: NetworkImage(
+                                  image: const NetworkImage(
                                       "https://www.clipartmax.com/png/middle/207-2074506_sms-verification-comments-sms-black-icon-png.png")),
                             ),
                           )
@@ -118,12 +118,12 @@ class LoginPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         TextButton(
-                            onPressed: () {}, child: Text("Forget password"))
+                            onPressed: () {}, child: const Text("Forget password"))
                       ],
                     ),
                   ],
                 ),
-                Gap(50),
+                const Gap(50),
               ],
             ),
           ),
@@ -149,7 +149,7 @@ class LoginPage extends StatelessWidget {
       print("user secssus full login");
       await Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (context) => BottomNav(),
+          builder: (context) => const BottomNav(),
         ),
         (route) => false,
       );

@@ -27,16 +27,16 @@ class ProfilePage extends StatelessWidget {
         builder: (context, snapshot) {
           UserModel? user = snapshot.data;
           return Scaffold(
-            backgroundColor: Color.fromARGB(221, 47, 46, 46),
+            backgroundColor: const Color.fromARGB(221, 47, 46, 46),
             appBar: AppBar(
-              backgroundColor: Color.fromARGB(221, 47, 46, 46),
-              leading: Image(
+              backgroundColor: const Color.fromARGB(221, 47, 46, 46),
+              leading: const Image(
                   fit: BoxFit.fill,
                   image: AssetImage(
                       "assets/images/it-s-social-media-app-name-is-connect-hub-logo-3d--JM0aIQQSSvWkgMvE_dmyWw-EVwOSYhYQiOQxM4Ubzil_A-removebg-preview.png")),
               title: Text(
                 user?.username.toString().toUpperCase() ?? "",
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.italic),
@@ -49,7 +49,7 @@ class ProfilePage extends StatelessWidget {
                         builder: (context) => LoginPage(),
                       ));
                     },
-                    icon: Icon(Icons.logout_sharp)),
+                    icon: const Icon(Icons.logout_sharp)),
               ],
             ),
             body: Padding(
@@ -61,7 +61,7 @@ class ProfilePage extends StatelessWidget {
                     return Container(
                       child: Column(
                         children: [
-                          Gap(20),
+                          const Gap(20),
                           // Row(
                           //   mainAxisAlignment: MainAxisAlignment.center,
                           //   children: [
@@ -92,12 +92,12 @@ class ProfilePage extends StatelessWidget {
                                         children: [
                                           Text(
                                             user?.followers.toString() ?? "",
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 16,
                                             ),
                                           ),
-                                          Text(
+                                          const Text(
                                             "FOLLOWERS",
                                             style:
                                                 TextStyle(color: Colors.white),
@@ -117,12 +117,12 @@ class ProfilePage extends StatelessWidget {
                                         children: [
                                           Text(
                                             user?.following.toString() ?? "",
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 16,
                                             ),
                                           ),
-                                          Text(
+                                          const Text(
                                             "FOLLOWING",
                                             style:
                                                 TextStyle(color: Colors.white),
@@ -132,7 +132,7 @@ class ProfilePage extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                                Gap(25),
+                                const Gap(25),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
@@ -156,7 +156,7 @@ class ProfilePage extends StatelessWidget {
                                         ),
                                         width: width * 0.5,
                                         height: height * 0.04,
-                                        child: Center(
+                                        child: const Center(
                                             child: Text(
                                           "Edit Profile",
                                           style: TextStyle(
@@ -165,7 +165,7 @@ class ProfilePage extends StatelessWidget {
                                         )),
                                       ),
                                     ),
-                                    Gap(40)
+                                    const Gap(40)
                                   ],
                                 )
                               ],
@@ -179,7 +179,7 @@ class ProfilePage extends StatelessWidget {
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
-                                  return Center(
+                                  return const Center(
                                       child: CircularProgressIndicator());
                                 }
 
@@ -190,7 +190,7 @@ class ProfilePage extends StatelessWidget {
 
                                 if (!snapshot.hasData ||
                                     snapshot.data!.docs.isEmpty) {
-                                  return Center(
+                                  return const Center(
                                       child: Text(
                                     'No posts found.',
                                     style: TextStyle(
@@ -207,7 +207,7 @@ class ProfilePage extends StatelessWidget {
 
                                 return GridView.builder(
                                   gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
                                     crossAxisSpacing: 10,
                                     mainAxisSpacing: 5,
@@ -219,7 +219,7 @@ class ProfilePage extends StatelessWidget {
                                     final id = postRef[index].id;
                                     return Stack(
                                       children: [
-                                        Container(
+                                        SizedBox(
                                           width: width * 0.5,
                                           child: Card(
                                             elevation: 7,
@@ -278,7 +278,7 @@ class ProfilePage extends StatelessWidget {
         Uri.tryParse(imageUrl)?.hasAbsolutePath == true) {
       return NetworkImage(imageUrl);
     } else {
-      return AssetImage('assets/images/1077114.png');
+      return const AssetImage('assets/images/1077114.png');
     }
   }
 }

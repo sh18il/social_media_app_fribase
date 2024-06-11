@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class AddPage extends StatelessWidget {
   String? username;
   AddPage({super.key, this.username});
@@ -28,11 +29,11 @@ class AddPage extends StatelessWidget {
               .clearPickedImage();
         },
         child: Scaffold(
-          backgroundColor: Color.fromARGB(221, 47, 46, 46),
+          backgroundColor: const Color.fromARGB(221, 47, 46, 46),
           appBar: AppBar(
-            backgroundColor: Color.fromARGB(221, 47, 46, 46),
-            title: Text(
-              "Add New Post",
+            backgroundColor: const Color.fromARGB(221, 47, 46, 46),
+            title: const Text(
+              " New Post Create",
               style: TextStyle(color: Colors.white),
             ),
             centerTitle: true,
@@ -50,10 +51,10 @@ class AddPage extends StatelessWidget {
                           height: height * 0.4,
                           width: width,
                           decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                            color: const Color.fromARGB(255, 42, 40, 40),
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
-                              color: Colors.grey,
+                              color: Color.fromARGB(255, 62, 60, 60),
                               width: 1,
                             ),
                             image: snapshot.data != null
@@ -68,7 +69,7 @@ class AddPage extends StatelessWidget {
                                   child: Text(
                                     "No image selected",
                                     style: TextStyle(
-                                      color: Colors.grey[600],
+                                      color: Colors.white,
                                       fontSize: 16,
                                     ),
                                   ),
@@ -78,25 +79,25 @@ class AddPage extends StatelessWidget {
                       },
                     );
                   }),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton.icon(
                     onPressed: () {
                       Provider.of<ImagesProvider>(context, listen: false)
                           .pickImg();
                     },
-                    icon: Icon(Icons.add_a_photo),
-                    label: Text("Add Picture"),
+                    icon: const Icon(Icons.add_a_photo),
+                    label: const Text("Add Picture"),
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: Colors.blue,
+                      backgroundColor: const Color.fromARGB(255, 19, 32, 42),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextFormField(
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                     controller: descriptionCtrl,
                     maxLines: 3,
                     decoration: InputDecoration(
@@ -106,21 +107,21 @@ class AddPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
                       add(context, false);
                     },
-                    child: Text("Submit"),
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: Colors.green,
-                      padding:
-                          EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+                      backgroundColor: Color.fromARGB(255, 19, 30, 55),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 32),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
+                    child: const Text("Submit"),
                   ),
                 ],
               ),
@@ -154,13 +155,13 @@ class AddPage extends StatelessWidget {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => BottomNav(),
+          builder: (context) => const BottomNav(),
         ),
         (route) => false,
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please select an image.")),
+        const SnackBar(content: Text("Please select an image.")),
       );
     }
   }

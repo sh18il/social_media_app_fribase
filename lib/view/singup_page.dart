@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:connecthub_social/controller/sigin_page.dart';
-import 'package:connecthub_social/model/auth_model.dart';
 import 'package:connecthub_social/service/firebase_auth_implimentetion.dart';
 import 'package:connecthub_social/widgets/bottom_nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,7 +18,7 @@ class SignupPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // final provider =
     //     Provider.of<FirebaseAuthContriller>(context, listen: false);
-    final height = MediaQuery.of(context).size.height;
+    // final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
@@ -44,7 +43,7 @@ class SignupPage extends StatelessWidget {
                                   image: FileImage(snapshot.data!),
                                   fit: BoxFit.cover,
                                 )
-                              : DecorationImage(
+                              : const DecorationImage(
                                   image:
                                       AssetImage("assets/images/1077114.png")),
                         ),
@@ -54,14 +53,14 @@ class SignupPage extends StatelessWidget {
                   },
                 );
               }),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton.icon(
                 onPressed: () {
                   Provider.of<SginPageController>(context, listen: false)
                       .pickImg();
                 },
-                icon: Icon(Icons.add_a_photo),
-                label: Text("Add Picture"),
+                icon: const Icon(Icons.add_a_photo),
+                label: const Text("Add Picture"),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
                   backgroundColor: Colors.blue,
@@ -70,43 +69,43 @@ class SignupPage extends StatelessWidget {
                   ),
                 ),
               ),
-              Gap(20),
-              Container(
+              const Gap(20),
+              const SizedBox(
                 height: 20,
                 child: Center(child: Text("Sign Up")),
               ),
               TextFormField(
                 controller: userNameCtrl,
                 decoration: InputDecoration(
-                    label: Text("User Name"),
+                    label: const Text("User Name"),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20))),
               ),
-              Gap(30),
+              const Gap(30),
               TextFormField(
                 controller: emailCtrl,
                 decoration: InputDecoration(
-                    label: Text("Email or Phone"),
+                    label: const Text("Email or Phone"),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20))),
               ),
-              Gap(30),
+              const Gap(30),
               TextFormField(
                 controller: passwordCtrl,
                 decoration: InputDecoration(
-                    label: Text("Password"),
+                    label: const Text("Password"),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20))),
               ),
-              Gap(30),
+              const Gap(30),
               SizedBox(
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 114, 152, 218)),
+                        backgroundColor: const Color.fromARGB(255, 114, 152, 218)),
                     onPressed: () {
                       signUp(context);
                     },
-                    child: Text(
+                    child: const Text(
                       "Sign Up",
                       style: TextStyle(
                           color: Colors.white,
@@ -114,16 +113,16 @@ class SignupPage extends StatelessWidget {
                           fontSize: 20),
                     )),
               ),
-              Gap(20),
-              Row(
+              const Gap(20),
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: EdgeInsets.all(10),
                   ),
                 ],
               ),
-              Gap(50),
+              const Gap(50),
             ],
           ),
         ),
@@ -149,7 +148,7 @@ class SignupPage extends StatelessWidget {
     if (user != null) {
       print("User is successful");
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => BottomNav(),
+        builder: (context) => const BottomNav(),
       ));
     }
   }
