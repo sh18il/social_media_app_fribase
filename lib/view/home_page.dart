@@ -14,6 +14,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+    final provider = Provider.of<HomeController>(context, listen: false);
 
     return SafeArea(
       child: Scaffold(
@@ -36,7 +37,8 @@ class HomePage extends StatelessWidget {
           ),
         ),
         body: StreamBuilder(
-          stream: ImagePostService().getPost(),
+          stream: provider.getPosts(),
+         
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -142,7 +144,8 @@ class HomePage extends StatelessWidget {
                                   const Gap(20),
                                   IconButton(
                                     onPressed: () {},
-                                    icon: const Icon(Icons.insert_comment_outlined),
+                                    icon: const Icon(
+                                        Icons.insert_comment_outlined),
                                   ),
                                 ],
                               ),

@@ -3,6 +3,7 @@ import 'package:connecthub_social/controller/follow_service_controller.dart';
 import 'package:connecthub_social/controller/home_page_controller.dart';
 import 'package:connecthub_social/controller/image_controller.dart';
 import 'package:connecthub_social/controller/sigin_page.dart';
+import 'package:connecthub_social/controller/user_controller.dart';
 import 'package:connecthub_social/firebase_options.dart';
 import 'package:connecthub_social/view/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -37,6 +38,9 @@ class MyApp extends StatelessWidget {
         ),
                 ChangeNotifierProvider(
           create: (context) => FollowServiceController(),
+        ),
+              ChangeNotifierProvider(
+          create: (context) => UserController(),
         ),
       ],
       child: MaterialApp(

@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connecthub_social/model/image_post_model.dart';
+import 'package:connecthub_social/service/image_post_service.dart';
 import 'package:flutter/material.dart';
 
 class HomeController extends ChangeNotifier {
+  ImagePostService service = ImagePostService();
   Map<String, bool> _likeStates = {};
   Map<String, int> _likeCounts = {};
 
@@ -14,5 +18,7 @@ class HomeController extends ChangeNotifier {
     notifyListeners();
   }
 
-  
+  Stream<QuerySnapshot<ImagePostModel>> getPosts() {
+    return service.getPost();
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:connecthub_social/controller/follow_service_controller.dart';
+import 'package:connecthub_social/controller/user_controller.dart';
 import 'package:connecthub_social/model/auth_model.dart';
 import 'package:connecthub_social/service/follow_service.dart';
 import 'package:connecthub_social/service/user_service.dart';
@@ -14,12 +15,14 @@ class AllUserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentuser = FirebaseAuth.instance.currentUser!.uid;
-   FollowService followService = FollowService();
-   final provider =Provider.of<FollowServiceController>(context,listen: false);
+    FollowService followService = FollowService();
+    final provider =
+        Provider.of<FollowServiceController>(context, listen: false);
+    final pro = Provider.of<UserController>(context, listen: false);
     return Scaffold(
       backgroundColor: const Color.fromARGB(221, 47, 46, 46),
       body: StreamBuilder(
-        stream: UserService().getUser(),
+        stream: pro.getUsers(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -70,7 +73,7 @@ class AllUserPage extends StatelessWidget {
                           ),
                           FutureBuilder<bool>(
                             future:
-                            //...........................................
+                                //...........................................
                                 followService.isFollowing(data.uid.toString()),
                             builder: (context, snapshot) {
                               if (!snapshot.hasData) {

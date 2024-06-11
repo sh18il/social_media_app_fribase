@@ -8,26 +8,17 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
-class EditProfilePage extends StatefulWidget {
+class EditProfilePage extends StatelessWidget {
   UserModel userModel;
   final String id;
   EditProfilePage({super.key, required this.userModel, required this.id});
 
-  @override
-  State<EditProfilePage> createState() => _EditProfilePageState();
-}
-
-class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController usernameCtrl = TextEditingController();
-  bool isNewImagePicked = false;
-  @override
-  void initState() {
-    usernameCtrl = TextEditingController(text: widget.userModel.username);
-    super.initState();
-  }
+
 
   @override
   Widget build(BuildContext context) {
+        usernameCtrl = TextEditingController(text: userModel.username);
     final provider = Provider.of<ImagesProvider>(context, listen: false);
 
     return SafeArea(
@@ -39,23 +30,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
               children: [
                 Consumer<ImagesProvider>(builder: (context, pro, _) {
                   return CircleAvatar(
-                    backgroundColor: const Color.fromARGB(255, 211, 210, 206),
-                    radius: 40,
-                    backgroundImage: isNewImagePicked
-                        ? FileImage(pro.editPickedImage!)
-                        : widget.userModel.image != null
-                            ? getImageProvider(
-                                widget.userModel.image.toString() ?? "no")
-                                
-                            : null
-                  );
+                      backgroundColor: const Color.fromARGB(255, 211, 210, 206),
+                      radius: 40,
+                      backgroundImage:provider. isNewImagePicked
+                          ? FileImage(pro.editPickedImage!)
+                          : userModel.image != null
+                              ? getImageProvider(
+                                  userModel.image.toString() ?? "no")
+                              : null);
                 }),
                 TextButton(
                   onPressed: () async {
                     await provider.editPickImg();
-                    setState(() {
-                      isNewImagePicked = true;
-                    });
+                    provider.isnewImgPicked();
                   },
                   child: const Text("Pick Image"),
                 ),
@@ -89,14 +76,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
     final imageProvider = Provider.of<ImagesProvider>(context, listen: false);
     final pro = Provider.of<FirebaseAuthContriller>(context, listen: false);
     FirebaseAuthService service = FirebaseAuthService();
-    String imageUrl = widget.userModel.image.toString();
-    if (isNewImagePicked) {
+    String imageUrl = userModel.image.toString();
+    if (imageProvider. isNewImagePicked) {
       imageUrl = (await service.updateImage(
           imageUrl, File(imageProvider.editPickedImage!.path), context))!;
       //  imageUrl, File(imageProvider.editPickedImage!.path), context);
     }
     final newData = usernameCtrl.text;
-    await pro.EditUserProfile(context, newData, widget.id, imageUrl);
+    await pro.EditUserProfile(context, newData, id, imageUrl);
     Navigator.pop(context);
   }
 

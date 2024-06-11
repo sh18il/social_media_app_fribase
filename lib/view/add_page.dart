@@ -1,11 +1,5 @@
 import 'dart:io';
 import 'package:connecthub_social/controller/image_controller.dart';
-
-import 'package:connecthub_social/model/image_post_model.dart';
-import 'package:connecthub_social/service/follow_service.dart';
-import 'package:connecthub_social/service/image_post_service.dart';
-import 'package:connecthub_social/widgets/bottom_nav.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,20 +7,16 @@ import 'package:provider/provider.dart';
 class AddPage extends StatelessWidget {
   String? username;
   AddPage({super.key, this.username});
-
-  TextEditingController descriptionCtrl = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-
+    final provider = Provider.of<ImagesProvider>(context, listen: false);
     return SafeArea(
       child: PopScope(
         canPop: true,
         onPopInvoked: (didPop) {
-          Provider.of<ImagesProvider>(context, listen: false)
-              .clearPickedImage();
+          provider.clearPickedImage();
         },
         child: Scaffold(
           backgroundColor: const Color.fromARGB(221, 47, 46, 46),
@@ -82,8 +72,7 @@ class AddPage extends StatelessWidget {
                   const SizedBox(height: 20),
                   ElevatedButton.icon(
                     onPressed: () {
-                      Provider.of<ImagesProvider>(context, listen: false)
-                          .pickImg();
+                      provider.pickImg();
                     },
                     icon: const Icon(Icons.add_a_photo),
                     label: const Text("Add Picture"),
@@ -98,7 +87,7 @@ class AddPage extends StatelessWidget {
                   const SizedBox(height: 20),
                   TextFormField(
                     style: const TextStyle(color: Colors.white),
-                    controller: descriptionCtrl,
+                    controller: provider.descriptionCtrl,
                     maxLines: 3,
                     decoration: InputDecoration(
                       labelText: "Description",
@@ -110,7 +99,7 @@ class AddPage extends StatelessWidget {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
-                      add(context, false);
+                      provider.add(context, false);
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
@@ -130,39 +119,5 @@ class AddPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  add(BuildContext context, isLiked) async {
-    final user = FirebaseAuth.instance.currentUser!.uid;
-    ImagePostService services = ImagePostService();
-    final imageProvider = Provider.of<ImagesProvider>(context, listen: false);
-    final username = await FollowService().getUserData(context, user);
-
-    if (imageProvider.pickedImage != null) {
-      await services.addImage(File(imageProvider.pickedImage!.path), context);
-
-      ImagePostModel imModel = ImagePostModel(
-        username: username!.username.toString(),
-        userImage: username.image,
-        image: services.url,
-        description: descriptionCtrl.text,
-        uid: user,
-        isLiked: isLiked,
-      );
-      imageProvider.clearPickedImage();
-
-      await services.addPost(imModel);
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const BottomNav(),
-        ),
-        (route) => false,
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please select an image.")),
-      );
-    }
   }
 }

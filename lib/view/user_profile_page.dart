@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connecthub_social/controller/follow_service_controller.dart';
+import 'package:connecthub_social/controller/user_controller.dart';
 import 'package:connecthub_social/model/auth_model.dart';
 import 'package:connecthub_social/model/image_post_model.dart';
 import 'package:connecthub_social/service/follow_service.dart';
@@ -17,14 +18,16 @@ class UserProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final followService = FollowService();
-    // final provider =
-    //     Provider.of<FollowServiceController>(context, listen: false);
+    final provider =
+        Provider.of<FollowServiceController>(context, listen: false);
+         final pro =
+        Provider.of<UserController>(context, listen: false);
 
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(96, 63, 54, 54),
         body: FutureBuilder<UserModel?>(
-          future: followService.getUserData(context, userId),
+          future: provider.userDataGeting(context, userId),
           builder: (context, userSnapshot) {
             if (userSnapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -121,8 +124,6 @@ class UserProfilePage extends StatelessWidget {
                           } else {
                             await pro.followUserCount(userId);
                           }
-                          // Refresh the follow status and user data
-                          (context as Element).reassemble();
                         },
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
@@ -138,7 +139,7 @@ class UserProfilePage extends StatelessWidget {
                 }),
                 Expanded(
                   child: StreamBuilder<QuerySnapshot<ImagePostModel>>(
-                    stream: ImagePostService().getPostUser(
+                    stream: pro.fetchPostUser(
                         ImagePostModel(uid: user.uid), user.uid ?? ""),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {

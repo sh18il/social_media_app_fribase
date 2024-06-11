@@ -10,12 +10,12 @@ import 'package:provider/provider.dart';
 class UserFollowersPage extends StatelessWidget {
   String? userId;
   UserFollowersPage({super.key, this.userId});
-
+ FollowService followService = FollowService();
   @override
   Widget build(BuildContext context) {
     final provider =
         Provider.of<FollowServiceController>(context, listen: false);
-    FollowService followService = FollowService();
+   
     final currentuser = FirebaseAuth.instance.currentUser!.uid;
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 45, 40, 40),
@@ -24,7 +24,7 @@ class UserFollowersPage extends StatelessWidget {
       ),
       body: FutureBuilder<List<UserModel>>(
         future: provider.userFollowersGeting(userId!),
-        // FollowService().getUserFollowers(widget.userId!),
+
         builder: (context, AsyncSnapshot<List<UserModel>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -77,7 +77,7 @@ class UserFollowersPage extends StatelessWidget {
                               builder: (context, pro, _) {
                             return FutureBuilder<bool>(
                               future:
-                                  //.................................
+                                //.................................
                                   followService
                                       .isFollowing(data.uid.toString()),
                               builder: (context, snapshot) {

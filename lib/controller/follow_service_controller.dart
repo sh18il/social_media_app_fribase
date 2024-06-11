@@ -28,15 +28,14 @@ class FollowServiceController extends ChangeNotifier {
     notifyListeners();
   }
 
-  // isFollowing(String userId) async {
-  //   await service.isFollowing(userId);
-  //   notifyListeners();
-  // }
- //......................................................................
-  userDataGeting(BuildContext context, String userId) async {
-    await service.getUserData(context, userId);
+  Future<bool> isFollowing(String userId) async {
     notifyListeners();
+
+    return await service.isFollowing(userId);
   }
  
 
+  Future<UserModel?> userDataGeting(BuildContext context, String userId) async {
+    return await service.getUserData(context, userId);
+  }
 }

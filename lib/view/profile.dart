@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connecthub_social/controller/follow_service_controller.dart';
+import 'package:connecthub_social/controller/image_controller.dart';
+import 'package:connecthub_social/controller/user_controller.dart';
 import 'package:connecthub_social/model/auth_model.dart';
 import 'package:connecthub_social/model/image_post_model.dart';
-import 'package:connecthub_social/service/follow_service.dart';
-import 'package:connecthub_social/service/image_post_service.dart';
+
 import 'package:connecthub_social/view/edit_profile_page.dart';
 import 'package:connecthub_social/view/follow_users_page.dart';
 import 'package:connecthub_social/view/login_page.dart';
@@ -20,10 +21,12 @@ class ProfilePage extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final userid = FirebaseAuth.instance.currentUser!.uid;
-    final provider = Provider.of<FollowServiceController>(context, listen: false);
+    final provider =
+        Provider.of<FollowServiceController>(context, listen: false);
+    final pro = Provider.of<ImagesProvider>(context, listen: false);
+    final postFetch = Provider.of<UserController>(context, listen: false);
     return FutureBuilder(
-      //.....................
-        future: FollowService().getUserData(context, userid),
+        future: provider.userDataGeting(context, userid),
         builder: (context, snapshot) {
           UserModel? user = snapshot.data;
           return Scaffold(
@@ -55,26 +58,14 @@ class ProfilePage extends StatelessWidget {
             body: Padding(
               padding: const EdgeInsets.all(1),
               child: FutureBuilder<UserModel?>(
-                  future: FollowService().getUserData(context, userid ?? "no"),
+                  future: provider.userDataGeting(context, userid ?? "no"),
                   builder: (context, snapshot) {
                     UserModel? user = snapshot.data;
                     return Container(
                       child: Column(
                         children: [
                           const Gap(20),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.center,
-                          //   children: [
-                          //     Text(
-                          //       user?.username.toString().toUpperCase() ??
-                          //           "UserName",
-                          //       style: TextStyle(
-                          //           fontSize: 20,
-                          //           fontWeight: FontWeight.bold,
-                          //           color: Colors.white),
-                          //     ),
-                          //   ],
-                          // ),
+                    
                           Container(
                             child: Column(
                               children: [
@@ -173,7 +164,7 @@ class ProfilePage extends StatelessWidget {
                           ),
                           Expanded(
                             child: StreamBuilder<QuerySnapshot<ImagePostModel>>(
-                              stream: ImagePostService().getPostUser(
+                              stream: postFetch.fetchPostUser(
                                   ImagePostModel(uid: user?.uid),
                                   user?.uid ?? ""),
                               builder: (context, snapshot) {
@@ -236,11 +227,10 @@ class ProfilePage extends StatelessWidget {
                                                 255, 29, 28, 28),
                                             onSelected: (value) {
                                               if (value == "delete") {
-                                                ImagePostService().deleteImage(
+                                                pro.deletePostImage(
                                                     post.image.toString(),
                                                     context);
-                                                ImagePostService()
-                                                    .deletePost(id);
+                                                pro.deletePostDesCription(id);
                                               }
                                             },
                                             itemBuilder: (context) {
