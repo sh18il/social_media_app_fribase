@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:connecthub_social/controller/image_controller.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ class AddPage extends StatelessWidget {
   AddPage({super.key, this.username});
   @override
   Widget build(BuildContext context) {
+    log("addScreen");
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final provider = Provider.of<ImagesProvider>(context, listen: false);

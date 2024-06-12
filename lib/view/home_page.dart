@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connecthub_social/controller/home_page_controller.dart';
 import 'package:connecthub_social/model/image_post_model.dart';
 import 'package:connecthub_social/service/image_post_service.dart';
+import 'package:connecthub_social/view/comment_page.dart';
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -12,6 +15,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("homeScreen");
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final provider = Provider.of<HomeController>(context, listen: false);
@@ -38,7 +42,6 @@ class HomePage extends StatelessWidget {
         ),
         body: StreamBuilder(
           stream: provider.getPosts(),
-         
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -143,7 +146,12 @@ class HomePage extends StatelessWidget {
                                   ),
                                   const Gap(20),
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) => CommentPage(postId: postId),
+                                      ));
+                                    },
                                     icon: const Icon(
                                         Icons.insert_comment_outlined),
                                   ),
