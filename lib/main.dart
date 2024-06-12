@@ -1,3 +1,4 @@
+import 'package:connecthub_social/controller/comment_controller.dart';
 import 'package:connecthub_social/controller/firebase_auth_contriller.dart';
 import 'package:connecthub_social/controller/follow_service_controller.dart';
 import 'package:connecthub_social/controller/home_page_controller.dart';
@@ -41,6 +42,9 @@ class MyApp extends StatelessWidget {
         ),
               ChangeNotifierProvider(
           create: (context) => UserController(),
+        ),
+               ChangeNotifierProvider(
+          create: (context) => CommentController(),
         ),
       ],
       child: MaterialApp(

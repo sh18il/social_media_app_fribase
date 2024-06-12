@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connecthub_social/controller/comment_controller.dart';
 import 'package:connecthub_social/model/comment_model.dart';
-import 'package:connecthub_social/service/comment_service.dart';
+
 import 'package:connecthub_social/service/follow_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class CommentPage extends StatelessWidget {
   String postId;
@@ -14,10 +16,11 @@ class CommentPage extends StatelessWidget {
   TextEditingController commetCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<CommentController>(context, listen: false);
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 36, 34, 34),
       body: StreamBuilder(
-          stream: CommentService().getComments(postId),
+          stream: provider.getComments(postId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
@@ -27,6 +30,13 @@ class CommentPage extends StatelessWidget {
                 'Something went wrong',
                 style: TextStyle(color: Colors.white),
               ));
+            } else if (snapshot.data?.isNotEmpty != snapshot.hasData) {
+              return Center(
+                child: Text(
+                  "No commets",
+                  style: TextStyle(color: Colors.white),
+                ),
+              );
             } else {
               return ListView.builder(
                 itemCount: snapshot.data?.length,
@@ -60,9 +70,12 @@ class CommentPage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          Text(formatTimestamp(data.timestamp
-                              // style: TextStyle(color: Colors.white),
-                              ))
+                          Text(
+                            formatTimestamp(data.timestamp
+                                // style: TextStyle(color: Colors.white),
+                                ),
+                            style: TextStyle(color: Colors.white),
+                          )
                         ],
                       ),
                     ),
@@ -86,6 +99,7 @@ class CommentPage extends StatelessWidget {
   }
 
   addComment(BuildContext context) async {
+    final provider = Provider.of<CommentController>(context, listen: false);
     final username = await FollowService().getUserData(context, currentUser);
     CommentModel ctModel = CommentModel(
         postId: postId,
@@ -95,7 +109,7 @@ class CommentPage extends StatelessWidget {
         username: username?.username ?? "",
         image: username?.image ?? "");
     commetCtrl.clear();
-    await CommentService().addComment(ctModel);
+    await provider.addComment(ctModel);
   }
 
   String formatTimestamp(Timestamp timestamp) {
