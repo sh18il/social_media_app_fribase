@@ -72,25 +72,38 @@ class AddPage extends StatelessWidget {
                     );
                   }),
                   const SizedBox(height: 20),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      provider.pickImg();
-                    },
-                    icon: const Icon(Icons.add_a_photo),
-                    label: const Text("Add Picture"),
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: const Color.fromARGB(255, 19, 32, 42),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                  Text(
+                    "pick image",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          provider.pickImg();
+                        },
+                        icon: const Icon(
+                          Icons.photo,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
+                      IconButton(
+                        onPressed: () {
+                          provider.pickImgCam();
+                        },
+                        icon: const Icon(
+                          Icons.add_a_photo,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
                     style: const TextStyle(color: Colors.white),
                     controller: provider.descriptionCtrl,
-                    maxLines: 3,
+                    maxLines: 1,
                     decoration: InputDecoration(
                       labelText: "Description",
                       border: OutlineInputBorder(

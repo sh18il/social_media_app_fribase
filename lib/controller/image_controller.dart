@@ -26,6 +26,11 @@ class ImagesProvider extends ChangeNotifier {
     pickedImage = File(img!.path);
     notifyListeners();
   }
+   Future<void> pickImgCam() async {
+    var img = await image.pickImage(source: ImageSource.camera);
+    pickedImage = File(img!.path);
+    notifyListeners();
+  }
 
   Future<void> editPickImg() async {
     var img = await image.pickImage(source: ImageSource.gallery);

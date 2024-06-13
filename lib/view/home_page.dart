@@ -5,10 +5,12 @@ import 'package:connecthub_social/controller/home_page_controller.dart';
 import 'package:connecthub_social/model/image_post_model.dart';
 import 'package:connecthub_social/service/image_post_service.dart';
 import 'package:connecthub_social/view/comment_page.dart';
+import 'package:connecthub_social/widgets/shimmer_effect.dart';
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
+import 'package:fade_shimmer/fade_shimmer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -44,9 +46,11 @@ class HomePage extends StatelessWidget {
           stream: provider.getPosts(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return shimmerWidget(height: height, width: width);
+
+              //  const Center(
+              //   child: CircularProgressIndicator(),
+              // );
             } else if (snapshot.hasError) {
               return Center(
                 child: Text("Error: ${snapshot.error}"),
@@ -147,10 +151,16 @@ class HomePage extends StatelessWidget {
                                   const Gap(20),
                                   IconButton(
                                     onPressed: () {
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                        builder: (context) => CommentPage(postId: postId),
-                                      ));
+                                      showModalBottomSheet(
+                                        context: context,
+                                        builder: (context) {
+                                          return CommentPage(postId: postId);
+                                        },
+                                      );
+                                      // Navigator.of(context)
+                                      //     .push(MaterialPageRoute(
+                                      //   builder: (context) => CommentPage(postId: postId),
+                                      // ));
                                     },
                                     icon: const Icon(
                                         Icons.insert_comment_outlined),

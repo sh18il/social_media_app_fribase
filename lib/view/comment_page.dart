@@ -51,7 +51,7 @@ class CommentPage extends StatelessWidget {
                           Row(
                             children: [
                               CircleAvatar(
-                                backgroundImage: NetworkImage(data.image),
+                                backgroundImage: getImageProvider(data.image),
                               ),
                               Gap(10),
                               Column(
@@ -71,9 +71,7 @@ class CommentPage extends StatelessWidget {
                             ],
                           ),
                           Text(
-                            formatTimestamp(data.timestamp
-                                // style: TextStyle(color: Colors.white),
-                                ),
+                            formatTimestamp(data.timestamp),
                             style: TextStyle(color: Colors.white),
                           )
                         ],
@@ -115,5 +113,15 @@ class CommentPage extends StatelessWidget {
   String formatTimestamp(Timestamp timestamp) {
     DateTime dateTime = timestamp.toDate();
     return DateFormat('MM-dd – kk:mm').format(dateTime);
+  }
+
+  ImageProvider getImageProvider(String? imageUrl) {
+    if (imageUrl != null &&
+        imageUrl.isNotEmpty &&
+        Uri.tryParse(imageUrl)?.hasAbsolutePath == true) {
+      return NetworkImage(imageUrl);
+    } else {
+      return const AssetImage('assets/images/1077114.png');
+    }
   }
 }

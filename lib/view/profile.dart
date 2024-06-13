@@ -11,6 +11,7 @@ import 'package:connecthub_social/view/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -65,7 +66,6 @@ class ProfilePage extends StatelessWidget {
                       child: Column(
                         children: [
                           const Gap(20),
-                    
                           Container(
                             child: Column(
                               children: [
@@ -170,8 +170,10 @@ class ProfilePage extends StatelessWidget {
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
-                                  return const Center(
-                                      child: CircularProgressIndicator());
+                                  return LoadingAnimationWidget.waveDots(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    size: 50,
+                                  );
                                 }
 
                                 if (snapshot.hasError) {

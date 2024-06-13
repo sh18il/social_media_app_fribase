@@ -4,9 +4,11 @@ import 'package:connecthub_social/model/auth_model.dart';
 import 'package:connecthub_social/service/follow_service.dart';
 import 'package:connecthub_social/service/user_service.dart';
 import 'package:connecthub_social/view/user_profile_page.dart';
+import 'package:connecthub_social/widgets/shimmer_effect.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 class AllUserPage extends StatelessWidget {
@@ -25,9 +27,7 @@ class AllUserPage extends StatelessWidget {
         stream: pro.getUsers(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return shimmerWidget(height: 5, width: 200);
           } else if (snapshot.hasError) {
             return const Center(
               child: Text("error code"),
@@ -77,7 +77,10 @@ class AllUserPage extends StatelessWidget {
                                 followService.isFollowing(data.uid.toString()),
                             builder: (context, snapshot) {
                               if (!snapshot.hasData) {
-                                return const CircularProgressIndicator();
+                                return LoadingAnimationWidget.waveDots(
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  size: 50,
+                                );
                               }
                               bool isFollowing = snapshot.data!;
                               return ElevatedButton(

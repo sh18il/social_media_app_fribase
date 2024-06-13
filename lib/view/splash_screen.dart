@@ -1,6 +1,8 @@
 import 'package:connecthub_social/view/auth.dart';
+import 'package:connecthub_social/widgets/shimmer_effect.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,11 +20,11 @@ class _SplashScreenState extends State<SplashScreen> {
       ));
     });
     super.initState();
-  }
+  } 
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: Color.fromARGB(221, 47, 46, 46),
       body: Center(
         child: Column(
@@ -39,7 +41,13 @@ class _SplashScreenState extends State<SplashScreen> {
                   fontWeight: FontWeight.bold),
             ),
             Gap(20),
-            Text("WELCOME..")
+            LoadingAnimationWidget.newtonCradle(
+              color: Color.fromARGB(255, 255, 255, 255),
+              size: 130,
+            ),            Text(
+              "WELCOME..",
+              style: TextStyle(color: Color.fromARGB(26, 210, 209, 209)),
+            )
           ],
         ),
       ),
