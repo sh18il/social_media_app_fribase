@@ -82,7 +82,7 @@ class FirebaseAuthService {
           username: username,
           email: email,
           uid: user.uid,
-          password: password,
+        
           image: imageUrl,
           followers: 0,
           following: 0
@@ -128,7 +128,7 @@ class FirebaseAuthService {
     }
   }
 
-  Future<UserCredential?> signInWithGoogle(BuildContext context) async {
+  Future<UserCredential?> signInWithGoogle(BuildContext context) async { 
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 

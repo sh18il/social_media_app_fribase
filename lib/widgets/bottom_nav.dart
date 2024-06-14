@@ -1,42 +1,29 @@
 // ignore_for_file: library_private_types_in_public_api
-import 'package:connecthub_social/view/add_page.dart';
-import 'package:connecthub_social/view/all_user_page.dart';
-import 'package:connecthub_social/view/home_page.dart';
-import 'package:connecthub_social/view/profile.dart';
+import 'package:connecthub_social/controller/bottom_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:light_bottom_navigation_bar/light_bottom_navigation_bar.dart';
+import 'package:provider/provider.dart';
 
-class BottomNav extends StatefulWidget {
+class BottomNav extends StatelessWidget {
   const BottomNav({super.key});
 
   @override
-  _BottomNavState createState() => _BottomNavState();
-}
-
-class _BottomNavState extends State<BottomNav> {
-  var screensList = [
-    const HomePage(),
-    // const Text('Search'),
-    AddPage(),
-    const AllUserPage(),
-    const ProfilePage(),
-  ];
-  var index = 0;
-
-  @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<BottomController>(context, listen: false);
+
     return Scaffold(
       bottomNavigationBar: LightBottomNavigationBar(
         height: 55,
-        currentIndex: index,
+        currentIndex: provider.index,
         items: makeNavItems(),
         onSelected: (index) {
-          setState(() {
-            this.index = index;
-          });
+          provider.value(index);
+        
         },
       ),
-      body: Center(child: screensList[index]),
+      body: Consumer<BottomController>(builder: (context, pro, _) {
+        return Center(child: pro.screensList[pro.index]);
+      }),
     );
   }
 

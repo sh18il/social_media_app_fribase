@@ -18,7 +18,7 @@ class CommentPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<CommentController>(context, listen: false);
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 36, 34, 34),
+      backgroundColor: Colors.black,
       body: StreamBuilder(
           stream: provider.getComments(postId),
           builder: (context, snapshot) {

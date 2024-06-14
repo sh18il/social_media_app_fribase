@@ -148,19 +148,17 @@ class HomePage extends StatelessWidget {
                                       );
                                     },
                                   ),
-                                  const Gap(20),
+                                  const Gap(20), 
                                   IconButton(
                                     onPressed: () {
                                       showModalBottomSheet(
+                                        elevation: 5,
+                                     
                                         context: context,
                                         builder: (context) {
                                           return CommentPage(postId: postId);
                                         },
                                       );
-                                      // Navigator.of(context)
-                                      //     .push(MaterialPageRoute(
-                                      //   builder: (context) => CommentPage(postId: postId),
-                                      // ));
                                     },
                                     icon: const Icon(
                                         Icons.insert_comment_outlined),

@@ -8,13 +8,14 @@ class CommentService {
     return fireStore
         .collection('comments')
         .where('postId', isEqualTo: postId)
-        // .orderBy('timestamp', descending: true)
+       
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) =>
                 CommentModel.fromJson(doc.data() as Map<String, dynamic>))
             .toList());
   }
+ 
 
   Future<void> addComment(CommentModel comment) async {
     await fireStore.collection('comments').add(comment.toJson());
