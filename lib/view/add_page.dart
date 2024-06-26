@@ -125,7 +125,9 @@ class AddPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text("Submit"),
+                    child: provider.isLoading
+                        ? CircularProgressIndicator()
+                        : Text("Submit"),
                   ),
                 ],
               ),

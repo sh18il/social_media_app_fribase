@@ -11,7 +11,6 @@ class UserModel {
     this.username,
     this.email,
     this.uid,
-  
     this.image,
     this.followers,
     this.following,
@@ -23,7 +22,7 @@ class UserModel {
     username = json["username"];
     email = json["email"];
     uid = json["uid"];
-  
+
     image = json["image"];
     followers = json["followers"];
     following = json["following"];
@@ -34,7 +33,6 @@ class UserModel {
       "username": username,
       "email": email,
       "uid": uid,
-   
       "image": image,
       "followers": followers,
       "following": following,

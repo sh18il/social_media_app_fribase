@@ -15,6 +15,7 @@ class ImagesProvider extends ChangeNotifier {
   File? pickedImage;
   File? editPickedImage;
   bool isNewImagePicked = false;
+  bool isLoading = false;
   ImagePicker image = ImagePicker();
   isnewImgPicked() {
     isNewImagePicked = !isNewImagePicked;
@@ -26,7 +27,8 @@ class ImagesProvider extends ChangeNotifier {
     pickedImage = File(img!.path);
     notifyListeners();
   }
-   Future<void> pickImgCam() async {
+
+  Future<void> pickImgCam() async {
     var img = await image.pickImage(source: ImageSource.camera);
     pickedImage = File(img!.path);
     notifyListeners();
@@ -62,6 +64,7 @@ class ImagesProvider extends ChangeNotifier {
   }
 
   add(BuildContext context, isLiked) async {
+    isLoading = true;
     final user = FirebaseAuth.instance.currentUser!.uid;
     ImagePostService services = ImagePostService();
     // final imageProvider = Provider.of<ImagesProvider>(context, listen: false);
@@ -88,6 +91,7 @@ class ImagesProvider extends ChangeNotifier {
         ),
         (route) => false,
       );
+      isLoading = false;
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Please select an image.")),

@@ -16,7 +16,7 @@ class AllUserPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentuser = FirebaseAuth.instance.currentUser!.uid;
+    final currentuser = FirebaseAuth.instance.currentUser?.uid??"";
     FollowService followService = FollowService();
     final provider =
         Provider.of<FollowServiceController>(context, listen: false);
@@ -92,8 +92,6 @@ class AllUserPage extends StatelessWidget {
                                     await provider
                                         .followUserCount(data.uid.toString());
                                   }
-                                  // Refresh the state to update the button text
-                                  (context as Element).reassemble();
                                 },
                                 child: Text(
                                   isFollowing ? 'Unfollow ' : 'Follow',

@@ -5,7 +5,9 @@ import 'package:connecthub_social/service/firebase_auth_implimentetion.dart';
 import 'package:connecthub_social/widgets/bottom_nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 class SignupPage extends StatelessWidget {
@@ -47,7 +49,6 @@ class SignupPage extends StatelessWidget {
                                   image:
                                       AssetImage("assets/images/1077114.png")),
                         ),
-                       
                       ),
                     );
                   },
@@ -101,7 +102,8 @@ class SignupPage extends StatelessWidget {
               SizedBox(
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 114, 152, 218)),
+                        backgroundColor:
+                            const Color.fromARGB(255, 114, 152, 218)),
                     onPressed: () {
                       signUp(context);
                     },
@@ -139,7 +141,13 @@ class SignupPage extends StatelessWidget {
     String imageUrl = '';
     if (selectedImage != null) {
       await service.addImage(selectedImage!, context);
-      imageUrl = service.url;
+      imageUrl = service.url ?? '';
+    } else {
+    
+      File defaultImage =
+          await getImageFileFromAssets('assets/images/1077114.png');
+      await service.addImage(defaultImage, context);
+      imageUrl = service.url ?? '';
     }
 
     User? user =
@@ -151,5 +159,15 @@ class SignupPage extends StatelessWidget {
         builder: (context) => const BottomNav(),
       ));
     }
+  }
+
+  Future<File> getImageFileFromAssets(String path) async {
+    final byteData = await rootBundle.load(path);
+
+    final file =
+        File('${(await getTemporaryDirectory()).path}/default_image.png');
+    await file.writeAsBytes(byteData.buffer.asUint8List());
+
+    return file;
   }
 }

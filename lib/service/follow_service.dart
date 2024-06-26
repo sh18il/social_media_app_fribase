@@ -74,7 +74,7 @@ class FollowService {
   }
 
   Future<bool> isFollowing(String userId) async {
-    String currentUserId = _auth.currentUser!.uid;
+    String currentUserId = _auth.currentUser?.uid??"";
     DocumentSnapshot doc = await firestore
         .collection('followers')
         .doc(currentUserId)

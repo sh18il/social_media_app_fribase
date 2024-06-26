@@ -79,7 +79,7 @@ class PhoneOtpPage extends StatelessWidget {
                                           validator: (value) {
                                             if (value!.length != 6) {
                                               return "invalid otp number";
-                                            return null;
+                                           
                                             }
                                             return null;
                                           },

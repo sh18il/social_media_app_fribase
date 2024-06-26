@@ -6,6 +6,7 @@ import 'package:connecthub_social/model/auth_model.dart';
 import 'package:connecthub_social/model/image_post_model.dart';
 import 'package:connecthub_social/view/edit_profile_page.dart';
 import 'package:connecthub_social/view/follow_users_page.dart';
+import 'package:connecthub_social/widgets/game.dart';
 
 import 'package:connecthub_social/widgets/privacy_policy.dart';
 
@@ -21,7 +22,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final userid = FirebaseAuth.instance.currentUser!.uid;
+    final userid = FirebaseAuth.instance.currentUser?.uid ?? "";
     final provider =
         Provider.of<FollowServiceController>(context, listen: false);
     final pro = Provider.of<ImagesProvider>(context, listen: false);
@@ -64,7 +65,6 @@ class ProfilePage extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   children: [
                     Gap(20),
-                   
                     ListTile(
                       leading: Icon(Icons.person),
                       title: Text('Profile'),
@@ -102,6 +102,16 @@ class ProfilePage extends StatelessWidget {
                       title: Text('Help'),
                       onTap: () {},
                     ),
+                    Gap(20),
+                    ListTile(
+                      leading: Icon(Icons.games_outlined),
+                      title: Text('chess  game '),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => GamePage(),
+                        ));
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -131,7 +141,7 @@ class ProfilePage extends StatelessWidget {
                                     child: Column(
                                       children: [
                                         Text(
-                                          user?.followers.toString()  ?? "",
+                                          user?.followers.toString() ?? "",
                                           style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 16,

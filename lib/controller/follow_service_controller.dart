@@ -18,7 +18,7 @@ class FollowServiceController extends ChangeNotifier {
     return followers;
   }
 
-  followUserCount(String followUserId) async {
+   followUserCount(String followUserId) async {
     await service.followUser(followUserId);
     notifyListeners();
   }
