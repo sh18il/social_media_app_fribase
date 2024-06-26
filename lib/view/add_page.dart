@@ -11,7 +11,7 @@ class AddPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     log("addScreen");
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.of(context).size.height * 1;
     final width = MediaQuery.of(context).size.width;
     final provider = Provider.of<ImagesProvider>(context, listen: false);
     return SafeArea(
@@ -30,106 +30,114 @@ class AddPage extends StatelessWidget {
             ),
             centerTitle: true,
           ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Consumer<ImagesProvider>(builder: (context, pro, _) {
-                    return FutureBuilder<File?>(
-                      future: Future.value(pro.pickedImage),
-                      builder: (context, snapshot) {
-                        return Container(
-                          height: height * 0.4,
-                          width: width,
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 42, 40, 40),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: Color.fromARGB(255, 62, 60, 60),
-                              width: 1,
+          body: Container(
+            height: height,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image:
+                        AssetImage("assets/images/red-black-papercut-.jpg"))),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Consumer<ImagesProvider>(builder: (context, pro, _) {
+                      return FutureBuilder<File?>(
+                        future: Future.value(pro.pickedImage),
+                        builder: (context, snapshot) {
+                          return Container(
+                            height: height * 0.4,
+                            width: width,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 42, 40, 40),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: Color.fromARGB(255, 62, 60, 60),
+                                width: 1,
+                              ),
+                              image: snapshot.data != null
+                                  ? DecorationImage(
+                                      image: FileImage(snapshot.data!),
+                                      fit: BoxFit.cover,
+                                    )
+                                  : null,
                             ),
-                            image: snapshot.data != null
-                                ? DecorationImage(
-                                    image: FileImage(snapshot.data!),
-                                    fit: BoxFit.cover,
+                            child: snapshot.data == null
+                                ? Center(
+                                    child: Text(
+                                      "No image selected",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
                                   )
                                 : null,
+                          );
+                        },
+                      );
+                    }),
+                    const SizedBox(height: 20),
+                    Text(
+                      "pick image",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            provider.pickImg();
+                          },
+                          icon: const Icon(
+                            Icons.photo,
+                            color: Colors.white,
                           ),
-                          child: snapshot.data == null
-                              ? Center(
-                                  child: Text(
-                                    "No image selected",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                )
-                              : null,
-                        );
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            provider.pickImgCam();
+                          },
+                          icon: const Icon(
+                            Icons.add_a_photo,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      style: const TextStyle(color: Colors.white),
+                      controller: provider.descriptionCtrl,
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        labelText: "Description",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        provider.add(context, false);
                       },
-                    );
-                  }),
-                  const SizedBox(height: 20),
-                  Text(
-                    "pick image",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          provider.pickImg();
-                        },
-                        icon: const Icon(
-                          Icons.photo,
-                          color: Colors.white,
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Color.fromARGB(255, 19, 30, 55),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 16, horizontal: 32),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          provider.pickImgCam();
-                        },
-                        icon: const Icon(
-                          Icons.add_a_photo,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    style: const TextStyle(color: Colors.white),
-                    controller: provider.descriptionCtrl,
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                      labelText: "Description",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                      child: provider.isLoading
+                          ? CircularProgressIndicator()
+                          : Text("Submit"),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      provider.add(context, false);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Color.fromARGB(255, 19, 30, 55),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 16, horizontal: 32),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: provider.isLoading
-                        ? CircularProgressIndicator()
-                        : Text("Submit"),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

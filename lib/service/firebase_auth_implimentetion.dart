@@ -175,6 +175,21 @@ class FirebaseAuthService {
       return null;
     }
   }
+    Future<void> forgotPassword(BuildContext context, String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(
+        email: email,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Password reset email sent')),
+      );
+      Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message ?? 'Failed to send email')),
+      );
+    }
+  }
 }
 
 void ShowSnackBar(BuildContext context, String message) {

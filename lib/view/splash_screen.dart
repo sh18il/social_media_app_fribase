@@ -19,35 +19,38 @@ class _SplashScreenState extends State<SplashScreen> {
       ));
     });
     super.initState();
-  }   
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(221, 47, 46, 46),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image(
-                image: AssetImage(
-                    "assets/images/a-sleek-and-modern-3d-render-of-the-connect-hub-lo-aDv3q1bOTGO9qCZ23zbUWg-EVwOSYhYQiOQxM4Ubzil_A-removebg-preview.png")),
-            Text(
-              "CONNECT_HUB",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-            Gap(20),
-            LoadingAnimationWidget.newtonCradle(
-              color: Color.fromARGB(255, 255, 255, 255),
-              size: 130,
-            ),            Text(
-              "WELCOME..",
-              style: TextStyle(color: Color.fromARGB(26, 210, 209, 209)),
-            )
-          ],
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                fit: BoxFit.fill,
+                image: AssetImage("assets/images/splash.jpg"))),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image(
+                  image: AssetImage(
+                      "assets/images/a-sleek-and-modern-3d-render-of-the-connect-hub-lo-aDv3q1bOTGO9qCZ23zbUWg-EVwOSYhYQiOQxM4Ubzil_A-removebg-preview.png")),
+              Text(
+                "WELCOME",
+                style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+              Gap(20),
+              LoadingAnimationWidget.newtonCradle(
+                color: Color.fromARGB(255, 255, 255, 255),
+                size: 130,
+              ),
+            ],
+          ),
         ),
       ),
     );

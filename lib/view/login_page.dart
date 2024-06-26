@@ -1,5 +1,6 @@
 import 'package:connecthub_social/controller/firebase_auth_contriller.dart';
 import 'package:connecthub_social/service/firebase_auth_implimentetion.dart';
+import 'package:connecthub_social/view/forgot_password_page.dart';
 import 'package:connecthub_social/view/phone_page.dart';
 
 import 'package:connecthub_social/view/singup_page.dart';
@@ -17,9 +18,16 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width * 1;
-    return SafeArea(
-      child: Scaffold(
-        body: Padding(
+    final height = MediaQuery.of(context).size.height * 1;
+    return Scaffold(
+      body: Container(
+        height: height,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                opacity: 0.9,
+                fit: BoxFit.fill,
+                image: AssetImage("assets/images/torn-paper-black.jpg"))),
+        child: Padding(
           padding: const EdgeInsets.all(15),
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
@@ -35,18 +43,26 @@ class LoginPage extends StatelessWidget {
                 TextFormField(
                   controller: emailCtrl,
                   decoration: InputDecoration(
-                      label: const Text("Email"),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20))),
+                      label: const Text(
+                        "Email",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      border: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              strokeAlign: BorderSide.strokeAlignOutside))),
+                  style: TextStyle(color: Colors.white),
                 ),
                 const Gap(30),
                 TextFormField(
                   obscureText: true,
                   controller: passwordCtrl,
                   decoration: InputDecoration(
-                      label: const Text("password"),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20))),
+                      label: const Text(
+                        "password",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      border: UnderlineInputBorder()),
+                  style: TextStyle(color: Colors.white),
                 ),
                 const Gap(30),
                 Consumer<FirebaseAuthContriller>(builder: (context, pro, _) {
@@ -67,7 +83,10 @@ class LoginPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Don't have an account?"),
+                    const Text(
+                      "Don't have an account?",
+                      style: TextStyle(color: Colors.white),
+                    ),
                     TextButton(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
@@ -118,7 +137,12 @@ class LoginPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         TextButton(
-                            onPressed: () {}, child: const Text("Forget password"))
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ForgotPasswordScreen(),
+                              ));
+                            },
+                            child: const Text("Forget password"))
                       ],
                     ),
                   ],

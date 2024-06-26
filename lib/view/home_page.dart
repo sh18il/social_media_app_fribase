@@ -41,142 +41,151 @@ class HomePage extends StatelessWidget {
                 fontStyle: FontStyle.italic),
           ),
         ),
-        body: StreamBuilder(
-          stream: provider.getPosts(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return shimmerWidget(height: height, width: width);
+        body: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: AssetImage("assets/images/red-black-papercut-.jpg"))),
+          child: StreamBuilder(
+            stream: provider.getPosts(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return shimmerWidget(height: height, width: width);
 
-              //  const Center(
-              //   child: CircularProgressIndicator(),
-              // );
-            } else if (snapshot.hasError) {
-              return Center(
-                child: Text("Error: ${snapshot.error}"),
-              );
-            } else {
-              List<QueryDocumentSnapshot<ImagePostModel>> postRef =
-                  snapshot.data?.docs ?? [];
-              if (postRef.isEmpty) {
-                return const Center(
-                  child: Text(
-                    "No data available",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
+                //  const Center(
+                //   child: CircularProgressIndicator(),
+                // );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text("Error: ${snapshot.error}"),
                 );
-              }
-              return ListView.builder(
-                itemCount: postRef.length,
-                itemBuilder: (context, index) {
-                  final data = postRef[index].data();
-                  final postId = postRef[index].id;
-
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: Column(
-                        children: [
-                          Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Row(
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundImage:
-                                          getImageProvider(data.userImage),
-                                    ),
-                                    const Gap(20),
-                                    Text(data.username ?? 'No name'),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: width,
-                                height: height * 0.55,
-                                child: Image(
-                                  image: NetworkImage(data.image.toString()),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  const Gap(5),
-                                  Text(
-                                    data.description.toString(),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Consumer<HomeController>(
-                                    builder: (context, homeController, _) {
-                                      final isLiked =
-                                          homeController.isLiked(postId);
-
-                                      final likeCount =
-                                          homeController.likeCount(postId);
-                                      return Row(
-                                        children: [
-                                          IconButton(
-                                            onPressed: () {
-                                              homeController.toggleLike(postId);
-                                            },
-                                            icon: Icon(
-                                              isLiked
-                                                  ? Icons.favorite
-                                                  : Icons.favorite_border,
-                                              color: isLiked
-                                                  ? Colors.red
-                                                  : Colors.black,
-                                            ),
-                                          ),
-                                          Text('$likeCount likes'),
-                                        ],
-                                      );
-                                    },
-                                  ),
-                                  const Gap(20),
-                                  IconButton(
-                                    onPressed: () {
-                                      showModalBottomSheet(
-                                        elevation: 5,
-                                        context: context,
-                                        builder: (context) {
-                                          return CommentPage(postId: postId);
-                                        },
-                                      );
-                                    },
-                                    icon: const Icon(
-                                        Icons.insert_comment_outlined),
-                                  ),
-                                ],
-                              ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.label_important_outline),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+              } else {
+                List<QueryDocumentSnapshot<ImagePostModel>> postRef =
+                    snapshot.data?.docs ?? [];
+                if (postRef.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      "No data available",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
                     ),
                   );
-                },
-              );
-            }
-          },
+                }
+                return ListView.builder(
+                  itemCount: postRef.length,
+                  itemBuilder: (context, index) {
+                    final data = postRef[index].data();
+                    final postId = postRef[index].id;
+
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        color: Colors.white54,
+                        child: Column(
+                          children: [
+                            Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Row(
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundImage:
+                                            getImageProvider(data.userImage),
+                                      ),
+                                      const Gap(20),
+                                      Text(data.username ?? 'No name'),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: width,
+                                  height: height * 0.55,
+                                  child: Image(
+                                    image: NetworkImage(data.image.toString()),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    const Gap(5),
+                                    Text(
+                                      data.description.toString(),
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Consumer<HomeController>(
+                                      builder: (context, homeController, _) {
+                                        final isLiked =
+                                            homeController.isLiked(postId);
+
+                                        final likeCount =
+                                            homeController.likeCount(postId);
+                                        return Row(
+                                          children: [
+                                            IconButton(
+                                              onPressed: () {
+                                                homeController
+                                                    .toggleLike(postId);
+                                              },
+                                              icon: Icon(
+                                                isLiked
+                                                    ? Icons.favorite
+                                                    : Icons.favorite_border,
+                                                color: isLiked
+                                                    ? Colors.red
+                                                    : Colors.black,
+                                              ),
+                                            ),
+                                            Text('$likeCount likes'),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                    const Gap(20),
+                                    IconButton(
+                                      onPressed: () {
+                                        showModalBottomSheet(
+                                          elevation: 5,
+                                          context: context,
+                                          builder: (context) {
+                                            return CommentPage(postId: postId);
+                                          },
+                                        );
+                                      },
+                                      icon: const Icon(
+                                          Icons.insert_comment_outlined),
+                                    ),
+                                  ],
+                                ),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon:
+                                      const Icon(Icons.label_important_outline),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }
+            },
+          ),
         ),
       ),
     );
