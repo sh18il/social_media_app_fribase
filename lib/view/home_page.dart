@@ -82,7 +82,7 @@ class HomePage extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Card(
-                        color: Colors.white54,
+                        color: Colors.white70.withOpacity(0.9),
                         child: Column(
                           children: [
                             Column(

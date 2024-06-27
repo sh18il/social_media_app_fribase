@@ -14,56 +14,62 @@ class EditProfilePage extends StatelessWidget {
 
   TextEditingController usernameCtrl = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
-        usernameCtrl = TextEditingController(text: userModel.username);
+    usernameCtrl = TextEditingController(text: userModel.username);
     final provider = Provider.of<ImagesProvider>(context, listen: false);
 
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(221, 47, 46, 46),
-        body: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Consumer<ImagesProvider>(builder: (context, pro, _) {
-                  return CircleAvatar(
-                      backgroundColor: const Color.fromARGB(255, 211, 210, 206),
-                      radius: 40,
-                      backgroundImage:provider. isNewImagePicked
-                          ? FileImage(pro.editPickedImage!)
-                          : userModel.image != null
-                              ? getImageProvider(
-                                  userModel.image.toString() ?? "no")
-                              : null);
-                }),
-                TextButton(
-                  onPressed: () async {
-                    await provider.editPickImg();
-                    provider.isnewImgPicked();
-                  },
-                  child: const Text("Pick Image"),
-                ),
-                const Gap(20),
-                TextFormField(
-                  controller: usernameCtrl,
-                  decoration: InputDecoration(
-                      label: const Text(
-                        "UserName",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20))),
-                  style: const TextStyle(color: Colors.white),
-                ),
-                const Gap(14),
-                ElevatedButton(
-                    onPressed: () {
-                      edituserPage(context);
+        body: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: AssetImage("assets/images/red-black-papercut-.jpg"))),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Consumer<ImagesProvider>(builder: (context, pro, _) {
+                    return CircleAvatar(
+                        backgroundColor:
+                            const Color.fromARGB(255, 211, 210, 206),
+                        radius: 40,
+                        backgroundImage: provider.isNewImagePicked
+                            ? FileImage(pro.editPickedImage!)
+                            : userModel.image != null
+                                ? getImageProvider(
+                                    userModel.image.toString() ?? "no")
+                                : null);
+                  }),
+                  TextButton(
+                    onPressed: () async {
+                      await provider.editPickImg();
+                      provider.isnewImgPicked();
                     },
-                    child: const Text("submit"))
-              ],
+                    child: const Text("Pick Image"),
+                  ),
+                  const Gap(20),
+                  TextFormField(
+                    controller: usernameCtrl,
+                    decoration: InputDecoration(
+                        label: const Text(
+                          "UserName",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20))),
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  const Gap(14),
+                  ElevatedButton(
+                      onPressed: () {
+                        edituserPage(context);
+                      },
+                      child: const Text("submit"))
+                ],
+              ),
             ),
           ),
         ),
@@ -76,7 +82,7 @@ class EditProfilePage extends StatelessWidget {
     final pro = Provider.of<FirebaseAuthContriller>(context, listen: false);
     FirebaseAuthService service = FirebaseAuthService();
     String imageUrl = userModel.image.toString();
-    if (imageProvider. isNewImagePicked) {
+    if (imageProvider.isNewImagePicked) {
       imageUrl = (await service.updateImage(
           imageUrl, File(imageProvider.editPickedImage!.path), context))!;
       //  imageUrl, File(imageProvider.editPickedImage!.path), context);

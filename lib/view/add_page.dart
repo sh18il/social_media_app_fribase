@@ -50,7 +50,7 @@ class AddPage extends StatelessWidget {
                             height: height * 0.4,
                             width: width,
                             decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 42, 40, 40),
+                              color: Colors.black38,
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
                                 color: Color.fromARGB(255, 62, 60, 60),

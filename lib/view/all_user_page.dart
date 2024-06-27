@@ -58,7 +58,7 @@ class AllUserPage extends StatelessWidget {
                         height: 70,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: const Color.fromARGB(255, 34, 30, 27)),
+                            color: Colors.black87.withOpacity(0.9)),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
