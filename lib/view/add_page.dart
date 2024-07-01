@@ -23,6 +23,8 @@ class AddPage extends StatelessWidget {
         child: Scaffold(
           backgroundColor: const Color.fromARGB(221, 47, 46, 46),
           appBar: AppBar(
+            shape:
+                BeveledRectangleBorder(borderRadius: BorderRadius.circular(30)),
             backgroundColor: const Color.fromARGB(221, 47, 46, 46),
             title: const Text(
               " New Post Create",
@@ -32,11 +34,11 @@ class AddPage extends StatelessWidget {
           ),
           body: Container(
             height: height,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 image: DecorationImage(
                     fit: BoxFit.fill,
-                    image:
-                        AssetImage("assets/images/red-black-papercut-.jpg"))),
+                    image: AssetImage("assets/images/red-black-papercut-.jpg"),
+                    opacity: 0.6)),
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -53,7 +55,7 @@ class AddPage extends StatelessWidget {
                               color: Colors.black38,
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: Color.fromARGB(255, 62, 60, 60),
+                                color: const Color.fromARGB(255, 62, 60, 60),
                                 width: 1,
                               ),
                               image: snapshot.data != null
@@ -64,7 +66,7 @@ class AddPage extends StatelessWidget {
                                   : null,
                             ),
                             child: snapshot.data == null
-                                ? Center(
+                                ? const Center(
                                     child: Text(
                                       "No image selected",
                                       style: TextStyle(
@@ -79,7 +81,7 @@ class AddPage extends StatelessWidget {
                       );
                     }),
                     const SizedBox(height: 20),
-                    Text(
+                    const Text(
                       "pick image",
                       style: TextStyle(color: Colors.white),
                     ),
@@ -125,7 +127,7 @@ class AddPage extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
-                        backgroundColor: Color.fromARGB(255, 19, 30, 55),
+                        backgroundColor: const Color.fromARGB(255, 19, 30, 55),
                         padding: const EdgeInsets.symmetric(
                             vertical: 16, horizontal: 32),
                         shape: RoundedRectangleBorder(
@@ -133,8 +135,8 @@ class AddPage extends StatelessWidget {
                         ),
                       ),
                       child: provider.isLoading
-                          ? CircularProgressIndicator()
-                          : Text("Submit"),
+                          ? const CircularProgressIndicator()
+                          : const Text("Submit"),
                     ),
                   ],
                 ),

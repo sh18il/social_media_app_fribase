@@ -22,7 +22,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       body: Container(
         height: height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             image: DecorationImage(
                 opacity: 0.9,
                 fit: BoxFit.fill,
@@ -42,27 +42,27 @@ class LoginPage extends StatelessWidget {
                 ),
                 TextFormField(
                   controller: emailCtrl,
-                  decoration: InputDecoration(
-                      label: const Text(
+                  decoration: const InputDecoration(
+                      label: Text(
                         "Email",
                         style: TextStyle(color: Colors.white),
                       ),
                       border: UnderlineInputBorder(
                           borderSide: BorderSide(
                               strokeAlign: BorderSide.strokeAlignOutside))),
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
                 const Gap(30),
                 TextFormField(
                   obscureText: true,
                   controller: passwordCtrl,
-                  decoration: InputDecoration(
-                      label: const Text(
+                  decoration: const InputDecoration(
+                      label: Text(
                         "password",
                         style: TextStyle(color: Colors.white),
                       ),
                       border: UnderlineInputBorder()),
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
                 const Gap(30),
                 Consumer<FirebaseAuthContriller>(builder: (context, pro, _) {

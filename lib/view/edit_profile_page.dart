@@ -23,7 +23,7 @@ class EditProfilePage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: const Color.fromARGB(221, 47, 46, 46),
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               image: DecorationImage(
                   fit: BoxFit.fill,
                   image: AssetImage("assets/images/red-black-papercut-.jpg"))),
@@ -40,7 +40,7 @@ class EditProfilePage extends StatelessWidget {
                             ? FileImage(pro.editPickedImage!)
                             : userModel.image != null
                                 ? getImageProvider(
-                                    userModel.image.toString() ?? "no")
+                                    userModel.image.toString())
                                 : null);
                   }),
                   TextButton(
@@ -88,7 +88,9 @@ class EditProfilePage extends StatelessWidget {
       //  imageUrl, File(imageProvider.editPickedImage!.path), context);
     }
     final newData = usernameCtrl.text;
+    // ignore: use_build_context_synchronously
     await pro.EditUserProfile(context, newData, id, imageUrl);
+    // ignore: use_build_context_synchronously
     Navigator.pop(context);
   }
 

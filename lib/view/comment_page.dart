@@ -23,15 +23,15 @@ class CommentPage extends StatelessWidget {
           stream: provider.getComments(postId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
-              return Center(
+              return const Center(
                   child: Text(
                 'Something went wrong',
                 style: TextStyle(color: Colors.white),
               ));
             } else if (snapshot.data?.isNotEmpty != snapshot.hasData) {
-              return Center(
+              return const Center(
                 child: Text(
                   "No commets",
                   style: TextStyle(color: Colors.white),
@@ -53,18 +53,18 @@ class CommentPage extends StatelessWidget {
                               CircleAvatar(
                                 backgroundImage: getImageProvider(data.image),
                               ),
-                              Gap(10),
+                              const Gap(10),
                               Column(
                                 children: [
                                   Text(
                                     data.username,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     data.commentText.toString(),
-                                    style: TextStyle(color: Colors.white),
+                                    style: const TextStyle(color: Colors.white),
                                   ),
                                 ],
                               ),
@@ -72,7 +72,7 @@ class CommentPage extends StatelessWidget {
                           ),
                           Text(
                             formatTimestamp(data.timestamp),
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                           )
                         ],
                       ),
@@ -89,7 +89,7 @@ class CommentPage extends StatelessWidget {
                 onPressed: () {
                   addComment(context);
                 },
-                icon: Icon(Icons.send)),
+                icon: const Icon(Icons.send)),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(20))),
       ),

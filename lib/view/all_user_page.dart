@@ -2,7 +2,6 @@ import 'package:connecthub_social/controller/follow_service_controller.dart';
 import 'package:connecthub_social/controller/user_controller.dart';
 import 'package:connecthub_social/model/auth_model.dart';
 import 'package:connecthub_social/service/follow_service.dart';
-import 'package:connecthub_social/service/user_service.dart';
 import 'package:connecthub_social/view/user_profile_page.dart';
 import 'package:connecthub_social/widgets/shimmer_effect.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,7 +23,7 @@ class AllUserPage extends StatelessWidget {
     return Scaffold(
       // backgroundColor: const Color.fromARGB(221, 47, 46, 46),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             image: DecorationImage(
                 fit: BoxFit.fill,
                 image: AssetImage("assets/images/red-black-papercut-.jpg"))),
@@ -32,7 +31,7 @@ class AllUserPage extends StatelessWidget {
           stream: pro.getUsers(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return shimmerWidget(height: 5, width: 200);
+              return const shimmerWidget(height: 5, width: 200);
             } else if (snapshot.hasError) {
               return const Center(
                 child: Text("error code"),
@@ -45,73 +44,108 @@ class AllUserPage extends StatelessWidget {
                 itemCount: users.length,
                 itemBuilder: (context, index) {
                   final data = users[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              UserProfilePage(userId: data.uid!),
-                        ));
-                      },
-                      child: Container(
-                        height: 70,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.black87.withOpacity(0.9)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                CircleAvatar(
+                  return InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            UserProfilePage(userId: data.uid!),
+                      ));
+                    },
+                    child: Container(
+                      height: 100,
+                      decoration: const BoxDecoration(color: Colors.white),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: CircleAvatar(
                                   maxRadius: 30,
                                   backgroundImage: getImageProvider(data.image),
                                 ),
-                                const Gap(40),
-                                Text(
-                                  data.username.toString(),
-                                  style: const TextStyle(
-                                      fontSize: 17, color: Colors.white),
+                              ),
+                              const Gap(45),
+                              Text(
+                                data.username.toString(),
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                  //  color: Colors.white
                                 ),
-                              ],
-                            ),
-                            FutureBuilder<bool>(
-                              future:
-                                  //...........................................
-                                  followService
-                                      .isFollowing(data.uid.toString()),
-                              builder: (context, snapshot) {
-                                if (!snapshot.hasData) {
-                                  return LoadingAnimationWidget.waveDots(
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                    size: 50,
-                                  );
-                                }
-                                bool isFollowing = snapshot.data!;
-                                return ElevatedButton(
-                                  onPressed: () async {
-                                    if (isFollowing) {
-                                      await provider
-                                          .unfollowCount(data.uid.toString());
-                                    } else {
-                                      await provider
-                                          .followUserCount(data.uid.toString());
-                                    }
-                                  },
-                                  child: Text(
-                                    isFollowing ? 'Unfollow ' : 'Follow',
-                                    style: TextStyle(
-                                        color: isFollowing
-                                            ? Colors.red
-                                            : Colors.blue,
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                              ),
+                            ],
+                          ),
+                          FutureBuilder<bool>(
+                            future:
+                                //...........................................
+                                followService.isFollowing(data.uid.toString()),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return LoadingAnimationWidget.waveDots(
+                                  color: const Color.fromARGB(255, 255, 255, 255),
+                                  size: 50,
                                 );
-                              },
-                            ),
-                          ],
-                        ),
+                              }
+                              bool isFollowing = snapshot.data!;
+                              return InkWell(
+                                onTap: () async {
+                                  if (isFollowing) {
+                                    await provider
+                                        .unfollowCount(data.uid.toString());
+                                  } else {
+                                    await provider
+                                        .followUserCount(data.uid.toString());
+                                  }
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    width: 80,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                        color: Colors.blue,
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: const Border(
+                                            bottom: BorderSide(
+                                                color: Colors.black,
+                                                width: 4))),
+                                    child: Center(
+                                      child: Text(
+                                        isFollowing ? 'Unfollow ' : 'Follow',
+                                        style: TextStyle(
+                                            color: isFollowing
+                                                ? Colors.red
+                                                : Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+
+                              //  ElevatedButton(
+                              //   onPressed: () async {
+                              //     if (isFollowing) {
+                              //       await provider
+                              //           .unfollowCount(data.uid.toString());
+                              //     } else {
+                              //       await provider
+                              //           .followUserCount(data.uid.toString());
+                              //     }
+                              //   },
+                              //   child: Text(
+                              //     isFollowing ? 'Unfollow ' : 'Follow',
+                              //     style: TextStyle(
+                              //         color: isFollowing
+                              //             ? Colors.red
+                              //             : Colors.blue,
+                              //         fontWeight: FontWeight.bold),
+                              //   ),
+                              // );
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   );

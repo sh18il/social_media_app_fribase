@@ -1,7 +1,6 @@
 import 'package:connecthub_social/service/firebase_auth_implimentetion.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:provider/provider.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   ForgotPasswordScreen({super.key});
@@ -16,10 +15,10 @@ class ForgotPasswordScreen extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text('Forgot Password'),
+        title: const Text('Forgot Password'),
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             image: DecorationImage(
                 fit: BoxFit.fill,
                 image: AssetImage("assets/images/red-black-papercut-.jpg"))),
@@ -31,14 +30,14 @@ class ForgotPasswordScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'Enter your email ',
                     textAlign: TextAlign.center,
                   ),
-                  Gap(20),
+                  const Gap(20),
                   TextFormField(
                     controller: emailController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Email',
                     ),
@@ -54,12 +53,12 @@ class ForgotPasswordScreen extends StatelessWidget {
                     },
                     style: const TextStyle(color: Colors.white),
                   ),
-                  Gap(20),
+                  const Gap(20),
                   ElevatedButton(
                     onPressed: () {
                       resetPassword(context);
                     },
-                    child: Text('Reset Email'),
+                    child: const Text('Reset Email'),
                   ),
                 ],
               ),

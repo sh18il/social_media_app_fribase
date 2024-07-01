@@ -1,7 +1,6 @@
 import 'package:fade_shimmer/fade_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class shimmerWidget extends StatelessWidget {
   const shimmerWidget({
@@ -22,11 +21,11 @@ class shimmerWidget extends StatelessWidget {
           return Container(
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(8)),
-            margin: EdgeInsets.symmetric(horizontal: 16),
-            padding: EdgeInsets.all(16),
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
                 Column(
@@ -37,7 +36,7 @@ class shimmerWidget extends StatelessWidget {
                       fadeTheme: FadeTheme.dark,
                       millisecondsDelay: delay,
                     ),
-                    Gap(5),
+                    const Gap(5),
                     FadeShimmer(
                       height: height * 0.5,
                       width: width * .8,
@@ -45,7 +44,7 @@ class shimmerWidget extends StatelessWidget {
                       millisecondsDelay: delay,
                       fadeTheme: FadeTheme.dark,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 6,
                     ),
                     Row(
@@ -66,7 +65,7 @@ class shimmerWidget extends StatelessWidget {
           );
         },
         itemCount: 20,
-        separatorBuilder: (_, __) => SizedBox(
+        separatorBuilder: (_, __) => const SizedBox(
           height: 16,
         ),
       ),

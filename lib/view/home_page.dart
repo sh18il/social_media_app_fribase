@@ -3,10 +3,12 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connecthub_social/controller/home_page_controller.dart';
 import 'package:connecthub_social/model/image_post_model.dart';
-
+import 'package:connecthub_social/view/chat_user_page.dart';
 import 'package:connecthub_social/view/comment_page.dart';
+import 'package:connecthub_social/view/profile.dart';
+import 'package:connecthub_social/view/user_profile_page.dart';
 import 'package:connecthub_social/widgets/shimmer_effect.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
@@ -20,14 +22,26 @@ class HomePage extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final provider = Provider.of<HomeController>(context, listen: false);
+    final currentUserid = FirebaseAuth.instance.currentUser?.uid ?? "";
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(221, 47, 46, 46),
+        // backgroundColor: const Color.fromARGB(221, 47, 46, 46),
         appBar: AppBar(
-          backgroundColor: const Color.fromARGB(96, 63, 54, 54),
+          shape:
+              BeveledRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          backgroundColor: const Color.fromARGB(221, 47, 46, 46),
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.chat_outlined))
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const ChatUserPage(),
+                  ));
+                },
+                icon: const Icon(
+                  Icons.chat_outlined,
+                  color: Colors.white60,
+                ))
           ],
           leading: const Image(
               fit: BoxFit.fill,
@@ -42,7 +56,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               image: DecorationImage(
                   fit: BoxFit.fill,
                   image: AssetImage("assets/images/red-black-papercut-.jpg"))),
@@ -79,16 +93,29 @@ class HomePage extends StatelessWidget {
                     final data = postRef[index].data();
                     final postId = postRef[index].id;
 
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Card(
-                        color: Colors.white70.withOpacity(0.9),
-                        child: Column(
-                          children: [
-                            Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(10),
+                    return Container(
+                      color: Colors.white,
+                      child: Column(
+                        children: [
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: InkWell(
+                                  onTap: () {
+                                    if (currentUserid == data.uid) {
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) => ProfilePage(),
+                                      ));
+                                    } else {
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) => UserProfilePage(
+                                            userId: data?.uid ?? ""),
+                                      ));
+                                    }
+                                  },
                                   child: Row(
                                     children: [
                                       CircleAvatar(
@@ -100,85 +127,83 @@ class HomePage extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                SizedBox(
-                                  width: width,
-                                  height: height * 0.55,
-                                  child: Image(
-                                    image: NetworkImage(data.image.toString()),
-                                    fit: BoxFit.cover,
+                              ),
+                              SizedBox(
+                                width: width,
+                                height: height * 0.55,
+                                child: Image(
+                                  image: NetworkImage(data.image.toString()),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  const Gap(5),
+                                  Text(
+                                    data.description.toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
                                   ),
-                                ),
-                                Row(
-                                  children: [
-                                    const Gap(5),
-                                    Text(
-                                      data.description.toString(),
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Consumer<HomeController>(
-                                      builder: (context, homeController, _) {
-                                        final isLiked =
-                                            homeController.isLiked(postId);
+                                ],
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Consumer<HomeController>(
+                                    builder: (context, homeController, _) {
+                                      final isLiked =
+                                          homeController.isLiked(postId);
 
-                                        final likeCount =
-                                            homeController.likeCount(postId);
-                                        return Row(
-                                          children: [
-                                            IconButton(
-                                              onPressed: () {
-                                                homeController
-                                                    .toggleLike(postId);
-                                              },
-                                              icon: Icon(
-                                                isLiked
-                                                    ? Icons.favorite
-                                                    : Icons.favorite_border,
-                                                color: isLiked
-                                                    ? Colors.red
-                                                    : Colors.black,
-                                              ),
+                                      final likeCount =
+                                          homeController.likeCount(postId);
+                                      return Row(
+                                        children: [
+                                          IconButton(
+                                            onPressed: () {
+                                              homeController.toggleLike(postId);
+                                            },
+                                            icon: Icon(
+                                              isLiked
+                                                  ? Icons.favorite
+                                                  : Icons.favorite_border,
+                                              color: isLiked
+                                                  ? Colors.red
+                                                  : Colors.black,
                                             ),
-                                            Text('$likeCount likes'),
-                                          ],
-                                        );
-                                      },
-                                    ),
-                                    const Gap(20),
-                                    IconButton(
-                                      onPressed: () {
-                                        showModalBottomSheet(
-                                          elevation: 5,
-                                          context: context,
-                                          builder: (context) {
-                                            return CommentPage(postId: postId);
-                                          },
-                                        );
-                                      },
-                                      icon: const Icon(
-                                          Icons.insert_comment_outlined),
-                                    ),
-                                  ],
-                                ),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon:
-                                      const Icon(Icons.label_important_outline),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                                          ),
+                                          Text('$likeCount likes'),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                  const Gap(20),
+                                  IconButton(
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                        elevation: 5,
+                                        context: context,
+                                        builder: (context) {
+                                          return CommentPage(postId: postId);
+                                        },
+                                      );
+                                    },
+                                    icon: const Icon(
+                                        Icons.insert_comment_outlined),
+                                  ),
+                                ],
+                              ),
+                              IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.label_important_outline),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     );
                   },

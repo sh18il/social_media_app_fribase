@@ -24,7 +24,7 @@ class SignupPage extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             image: DecorationImage(
                 opacity: 0.8,
                 fit: BoxFit.fill,
@@ -77,7 +77,7 @@ class SignupPage extends StatelessWidget {
                       color: Colors.blue,
                       borderRadius: BorderRadius.circular(30),
                     ),
-                    child: Center(
+                    child: const Center(
                         child: Text(
                       "Add Picture",
                       style: TextStyle(color: Colors.white),
@@ -91,41 +91,41 @@ class SignupPage extends StatelessWidget {
               ),
               TextFormField(
                 controller: userNameCtrl,
-                decoration: InputDecoration(
-                    label: const Text(
+                decoration: const InputDecoration(
+                    label: Text(
                       "User Name",
                       style: TextStyle(color: Colors.white),
                     ),
                     border: UnderlineInputBorder()),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
               const Gap(30),
               TextFormField(
                 controller: emailCtrl,
-                decoration: InputDecoration(
-                    label: const Text(
+                decoration: const InputDecoration(
+                    label: Text(
                       "Email",
                       style: TextStyle(color: Colors.white),
                     ),
                     border: UnderlineInputBorder()),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
               const Gap(30),
               TextFormField(
                 controller: passwordCtrl,
-                decoration: InputDecoration(
-                    label: const Text(
+                decoration: const InputDecoration(
+                    label: Text(
                       "Password",
                       style: TextStyle(color: Colors.white),
                     ),
                     border: UnderlineInputBorder()),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
               const Gap(30),
               SizedBox(
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 144, 221, 105)),
+                        backgroundColor: const Color.fromARGB(255, 144, 221, 105)),
                     onPressed: () {
                       signUp(context);
                     },

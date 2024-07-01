@@ -5,8 +5,10 @@ class ImagePostModel {
   bool? isLiked;
   String? username;
   String? userImage;
+  String? time;
 
   ImagePostModel({
+    this.time,
     this.image,
     this.description,
     this.uid,
@@ -22,6 +24,7 @@ class ImagePostModel {
     isLiked = json["is_liked"];
     username = json["username"];
     userImage = json["userImage"];
+    time = json["time"];
   }
 
   Map<String, dynamic> tojson() {
@@ -32,6 +35,7 @@ class ImagePostModel {
       "is_liked": isLiked,
       "username": username,
       "userImage": userImage,
+      "time":time,
     };
   }
 }

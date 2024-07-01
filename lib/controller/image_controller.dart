@@ -5,9 +5,9 @@ import 'package:connecthub_social/service/follow_service.dart';
 import 'package:connecthub_social/service/image_post_service.dart';
 import 'package:connecthub_social/widgets/bottom_nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class ImagesProvider extends ChangeNotifier {
   TextEditingController descriptionCtrl = TextEditingController();
@@ -72,6 +72,8 @@ class ImagesProvider extends ChangeNotifier {
 
     if (pickedImage != null) {
       await services.addImage(File(pickedImage!.path), context);
+      String currentTime =
+          DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
 
       ImagePostModel imModel = ImagePostModel(
         username: username!.username.toString(),
@@ -80,6 +82,7 @@ class ImagesProvider extends ChangeNotifier {
         description: descriptionCtrl.text,
         uid: user,
         isLiked: isLiked,
+        time: currentTime,
       );
       clearPickedImage();
 

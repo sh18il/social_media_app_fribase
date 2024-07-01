@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_chess_board/flutter_chess_board.dart';
 
 class GamePage extends StatefulWidget {
-  const GamePage({Key? key}) : super(key: key);
+  const GamePage({super.key});
 
   @override
   _GamePageState createState() => _GamePageState();
@@ -22,7 +21,7 @@ class _GamePageState extends State<GamePage> {
               onPressed: () {
                 controller.resetBoard();
               },
-              icon: Icon(Icons.rotate_left_sharp))
+              icon: const Icon(Icons.rotate_left_sharp))
         ],
         foregroundColor: Colors.white,
         shadowColor: Colors.black26,

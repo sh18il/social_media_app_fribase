@@ -34,6 +34,8 @@ class ProfilePage extends StatelessWidget {
           UserModel? user = snapshot.data;
           return Scaffold(
             appBar: AppBar(
+              shape: BeveledRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
               backgroundColor: const Color.fromARGB(221, 47, 46, 46),
               leading: const Image(
                   fit: BoxFit.fill,
@@ -61,7 +63,7 @@ class ProfilePage extends StatelessWidget {
               child: Drawer(
                 // backgroundColor: Color.fromARGB(255, 112, 109, 109),
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       image: DecorationImage(
                           opacity: 0.7,
                           fit: BoxFit.fill,
@@ -70,51 +72,51 @@ class ProfilePage extends StatelessWidget {
                   child: ListView(
                     padding: EdgeInsets.zero,
                     children: [
-                      Gap(20),
+                      const Gap(20),
                       ListTile(
-                        leading: Icon(Icons.person),
-                        title: Text('Profile'),
+                        leading: const Icon(Icons.person),
+                        title: const Text('Profile'),
                         onTap: () {
                           Navigator.pop(context);
                         },
                       ),
-                      Gap(20),
+                      const Gap(20),
                       ListTile(
-                        leading: Icon(Icons.adobe_outlined),
-                        title: Text('About'),
+                        leading: const Icon(Icons.adobe_outlined),
+                        title: const Text('About'),
                         onTap: () {},
                       ),
-                      Gap(20),
+                      const Gap(20),
                       ListTile(
-                        leading: Icon(Icons.logout),
-                        title: Text('LogOut'),
+                        leading: const Icon(Icons.logout),
+                        title: const Text('LogOut'),
                         onTap: () {
                           FirebaseAuth.instance.signOut();
                         },
                       ),
-                      Gap(20),
+                      const Gap(20),
                       ListTile(
-                        leading: Icon(Icons.privacy_tip_outlined),
-                        title: Text('Privacy&policy'),
+                        leading: const Icon(Icons.privacy_tip_outlined),
+                        title: const Text('Privacy&policy'),
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => PrivacyPolicyPage(),
                           ));
                         },
                       ),
-                      Gap(20),
+                      const Gap(20),
                       ListTile(
-                        leading: Icon(Icons.help_outline_sharp),
-                        title: Text('Help'),
+                        leading: const Icon(Icons.help_outline_sharp),
+                        title: const Text('Help'),
                         onTap: () {},
                       ),
-                      Gap(20),
+                      const Gap(20),
                       ListTile(
-                        leading: Icon(Icons.games_outlined),
-                        title: Text('chess  game '),
+                        leading: const Icon(Icons.games_outlined),
+                        title: const Text('chess  game '),
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => GamePage(),
+                            builder: (context) => const GamePage(),
                           ));
                         },
                       ),
@@ -124,11 +126,12 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             body: Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image:
-                          AssetImage("assets/images/red-black-papercut-.jpg"))),
+              // decoration: BoxDecoration(
+              //     image: DecorationImage(
+              //         fit: BoxFit.fill,
+              //         image:
+              //             AssetImage("assets/images/red-black-papercut-.jpg"))
+              // ),
               child: Padding(
                 padding: const EdgeInsets.all(1),
                 child: FutureBuilder<UserModel?>(
@@ -156,14 +159,14 @@ class ProfilePage extends StatelessWidget {
                                           Text(
                                             user?.followers.toString() ?? "",
                                             style: const TextStyle(
-                                              color: Colors.white,
+                                              // color: Colors.white,
                                               fontSize: 16,
                                             ),
                                           ),
                                           const Text(
                                             "FOLLOWERS",
-                                            style:
-                                                TextStyle(color: Colors.white),
+                                            // style:
+                                            //     TextStyle(color: Colors.white),
                                           ),
                                         ],
                                       ),
@@ -181,14 +184,14 @@ class ProfilePage extends StatelessWidget {
                                           Text(
                                             user?.following.toString() ?? "",
                                             style: const TextStyle(
-                                              color: Colors.white,
+                                              // color: Colors.white,
                                               fontSize: 16,
                                             ),
                                           ),
                                           const Text(
                                             "FOLLOWING",
-                                            style:
-                                                TextStyle(color: Colors.white),
+                                            // style:
+                                            // TextStyle(color: Colors.white),
                                           ),
                                         ],
                                       ),
@@ -234,6 +237,20 @@ class ProfilePage extends StatelessWidget {
                               ],
                             ),
                           ),
+                          Container(
+                            width: width,
+                            decoration: const BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(color: Colors.black))),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: const Text(
+                                "Posts",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18),
+                              ),
+                            ),
+                          ),
                           Expanded(
                             child: StreamBuilder<QuerySnapshot<ImagePostModel>>(
                               stream: postFetch.fetchPostUser(
@@ -243,7 +260,8 @@ class ProfilePage extends StatelessWidget {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
                                   return LoadingAnimationWidget.waveDots(
-                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    color: const Color.fromARGB(
+                                        255, 255, 255, 255),
                                     size: 50,
                                   );
                                 }

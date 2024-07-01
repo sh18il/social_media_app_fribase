@@ -20,7 +20,7 @@ class UserFollowersPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 45, 40, 40),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             image: DecorationImage(
                 fit: BoxFit.fill,
                 image: AssetImage("assets/images/red-black-papercut-.jpg"))),
@@ -96,6 +96,7 @@ class UserFollowersPage extends StatelessWidget {
                                             data.uid.toString());
                                       }
                                       // Refresh the state to update the button text
+                                      // ignore: invalid_use_of_protected_member
                                       (context as Element).reassemble();
                                     },
                                     child: Text(

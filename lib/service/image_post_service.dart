@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,7 +34,7 @@ class ImagePostService {
     }
   }
 
-  Future <String?> updateImage(
+  Future<String?> updateImage(
       String imageUrl, File updateImage, BuildContext context) async {
     try {
       Reference editImageRef = FirebaseStorage.instance.refFromURL(imageUrl);
@@ -59,7 +61,7 @@ class ImagePostService {
   }
 
   Stream<QuerySnapshot<ImagePostModel>> getPost() {
-    return postImgRef.snapshots();
+    return postImgRef.orderBy("time", descending: true).snapshots();
   }
 
   Future deletePost(String id) async {

@@ -24,9 +24,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(221, 47, 46, 46),
+      backgroundColor: const Color.fromARGB(221, 47, 46, 46),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             image: DecorationImage(
                 fit: BoxFit.fill,
                 image: AssetImage("assets/images/splash.jpg"))),
@@ -34,19 +34,19 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image(
+              const Image(
                   image: AssetImage(
                       "assets/images/a-sleek-and-modern-3d-render-of-the-connect-hub-lo-aDv3q1bOTGO9qCZ23zbUWg-EVwOSYhYQiOQxM4Ubzil_A-removebg-preview.png")),
-              Text(
+              const Text(
                 "WELCOME",
                 style: TextStyle(
                     color: Colors.white70,
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
-              Gap(20),
+              const Gap(20),
               LoadingAnimationWidget.newtonCradle(
-                color: Color.fromARGB(255, 255, 255, 255),
+                color: const Color.fromARGB(255, 255, 255, 255),
                 size: 130,
               ),
             ],

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 
@@ -10,8 +12,8 @@ import 'package:connecthub_social/model/auth_model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthService {
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   String imageName = DateTime.now().microsecondsSinceEpoch.toString();
   String url = "";
@@ -31,6 +33,7 @@ class FirebaseAuthService {
     try {
       await postImgRef.doc(id).update({"username": userName});
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ShowSnackBar(context, "faildUpdate");
     }
   }
@@ -181,7 +184,7 @@ class FirebaseAuthService {
         email: email,
       );
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Password reset email sent')),
+        const SnackBar(content: Text('Password reset email sent')),
       );
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
@@ -192,6 +195,7 @@ class FirebaseAuthService {
   }
 }
 
+// ignore: non_constant_identifier_names
 void ShowSnackBar(BuildContext context, String message) {
   final snackBar = SnackBar(content: Text(message));
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
